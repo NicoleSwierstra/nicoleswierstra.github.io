@@ -22,19 +22,20 @@ function getShaderFrom(vert, frag){
 }
 
 function getShaderFromFile(path){
-    const allContents = fs.readFileSync('test.json', 'utf-8');
+    let fs = new FileReaderSync();
+    var allContents = await fs.readFileSync('test.json', 'utf-8');
 
     var shaders = ["", ""];
     var type = 0;
     allContents.split(/\r?\n/).forEach((line) => {
         if (line.startsWith("#shader")) {
-            if (line.startsWith("vertex")) {
+            if (line.includes("vertex")) {
                 type = 0;
             }
-            else if (line.startsWith("geometry")) {
+            else if (line.includes("geometry")) {
                 type = -1;
             }
-            else if (line.startsWith("fragment")) {
+            else if (line.includes("fragment")) {
                 type = 1;
             }
         }
@@ -43,6 +44,16 @@ function getShaderFromFile(path){
         }
     });
     return getShaderFrom(shaders[0], shaders[1]); 
+}
+
+class Shader{
+    constructor(filepath){
+        this.id = getShaderFromFile(filepath);
+    }
+
+    bind(){
+        gl.useProgram(this.id);
+    }
 }
 
 function hexToRgb(hex) {
@@ -93,27 +104,7 @@ var index_buffer = gl.createBuffer ();
 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer);
 gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
 
-/*=================== Shaders =========================*/
-
-var vertCode = 'attribute vec3 position;'+
-'uniform mat4 Pmatrix;'+
-'uniform mat4 Vmatrix;'+
-'uniform mat4 Mmatrix;'+
-'attribute vec3 color;'+//the color of the point
-'varying vec3 vColor;'+
-
-'void main(void) { '+//pre-built function
-    'gl_Position = Pmatrix*Vmatrix*Mmatrix*vec4(position, 1.);'+
-    'vColor = color;'+
-'}';
-
-var fragCode = 'precision mediump float;'+
-'varying vec3 vColor;'+
-'void main(void) {'+
-    'gl_FragColor = vec4(vColor, 1.);'+
-'}';
-
-var shaderProgram = getShaderFrom(vertCode, fragCode);
+var shader = getShaderFromFile("test.shader");
 
 /* ====== Associating attributes to vertex shader =====*/
 var Pmatrix = gl.getUniformLocation(shaderProgram, "Pmatrix");
