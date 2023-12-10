@@ -1,0 +1,64 @@
+:root {
+    --dark-grey:    #5D5C61;
+    --light-grey:   #938E94;
+    --pale-blue:    #7395AE;
+    --deep-blue:    #557A95;
+    --smart-tan:    #B0A295;
+    --d_dark-grey:  #16151A;
+    --d_light-grey: #3D383E;
+    --d_pale-blue:  #1E4059;
+    --d_deep-blue:  #052A45;
+    --d_smart-tan:  #594B3E;
+    --transparent:  #00000000;
+}
+
+@font-face {
+    font-family: CascadiaCode;
+    src:url("fonts/CascadiaCode.ttf");
+}
+
+.header {
+    overflow: hidden;
+    background-color: var(--d_dark-grey);
+    padding: 20px 10px;
+}
+
+.header a {
+    float: left;
+    color: var(--pale-blue);
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 30pt;
+    line-height: 25px;
+    border-radius: 4px;
+    transition: top 0.2s ease-in-out;
+    position: sticky;
+    top: 0px;
+}
+
+.header a.logo {
+    font-size: 35pt;
+    font-weight: bold;
+}
+
+.header-right {
+    float: right;
+}
+
+body {
+    background-color: var(--d_dark-grey);
+    font-size: 18pt;
+    color:white;
+    font-family: CascadiaCode;
+    font-weight: bold;
+    text-align: left;
+    margin: auto;
+}
+
+.left-paragraph {
+    display:block; 
+    margin-left: 5%; 
+    margin-top: 100px; 
+    margin-right: 45%;
+}
