@@ -21,6 +21,30 @@ function getShaderFrom(vert, frag){
     return shaderProgram;
 }
 
+function getShaderFromFile(path){
+    const allContents = fs.readFileSync('test.json', 'utf-8');
+
+    var shaders = ["", ""];
+    var type = 0;
+    allContents.split(/\r?\n/).forEach((line) => {
+        if (line.startsWith("#shader")) {
+            if (line.startsWith("vertex")) {
+                type = 0;
+            }
+            else if (line.startsWith("geometry")) {
+                type = -1;
+            }
+            else if (line.startsWith("fragment")) {
+                type = 1;
+            }
+        }
+        else if(type != ShaderType.NONE) {
+            shaders[type] += line + '\n';
+        }
+    });
+    return getShaderFrom(shaders[0], shaders[1]); 
+}
+
 function hexToRgb(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
