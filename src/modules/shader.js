@@ -1,5 +1,4 @@
 export { getShaderFrom, getShaderFromFile, Shader };
-const fs = require('fs')
 
 function getShaderFrom(vert, frag){
     var vertShader = gl.createShader(gl.VERTEX_SHADER);
