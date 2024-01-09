@@ -14,6 +14,6 @@ void main(void) {
 precision mediump float;
 varying float l;
 
-void main(void) {\
+void main(void) {
     gl_FragColor = mix(vec4(1.0, 0.0, 0.0, 1.0), vec4(1.0, 1.0, 0.0, 1.0), l);\
 }';
