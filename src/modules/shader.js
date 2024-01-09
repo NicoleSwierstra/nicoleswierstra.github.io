@@ -50,7 +50,7 @@ async function getShaderFromFile(path, gl){
                 type = 1;
             }
         }
-        else if(type != ShaderType.NONE) {
+        else if(type != -1) {
             shaders[type] += line + '\n';
         }
     });
