@@ -1,7 +1,7 @@
 var canvas = document.getElementById('my_Canvas');
 var gl = canvas.getContext('experimental-webgl');
 
-import { getShaderFrom, setshadercontext } from "/src/modules/shader.js";
+import { getShaderFrom, getShaderFromFile, setshadercontext } from "/src/modules/shader.js";
 setshadercontext(gl);
 
 canvas.width = document.body.clientWidth;
