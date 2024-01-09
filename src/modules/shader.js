@@ -1,4 +1,10 @@
-export { getShaderFrom, getShaderFromFile, Shader };
+export { getShaderFrom, getShaderFromFile, Shader};
+
+var gl;
+
+function setshadercontext(glcontext) {
+    gl = glcontext;
+}
 
 function getShaderFrom(vert, frag){
     var vertShader = gl.createShader(gl.VERTEX_SHADER);
@@ -27,7 +33,7 @@ function getShaderFrom(vert, frag){
     return shaderProgram;
 }
 
-async function getShaderFromFile(path){
+async function getShaderFromFile(path, gl){
     let fs = new FileReaderSync();
     var allContents = await fetch(path).then(x => x.text());
 
