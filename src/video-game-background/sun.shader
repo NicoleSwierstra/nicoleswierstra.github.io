@@ -1,25 +1,19 @@
 #shader vertex
-#version 330 core
-
-layout(location = 0) in vec4 position;
+attribute vec3 position;
 
 uniform mat4 u_MVP;
 uniform mat4 trans;
+varying float l;
 
-out float l;
-
-void main() {
-	gl_Position = u_MVP * trans * position;
-	l = position.z / 200.0f;
+void main(void) { 
+    gl_Position = u_MVP * trans * vec4(position, 1.0); 
+    l = position.z / 160.0; 
 };
 
 #shader fragment
-#version 330 core
+precision mediump float;
+varying float l;
 
-in float l;
-
-out vec4 color;
-
-void main() {
-	color = mix(vec4(1.0f, 0.0f, 0.0f, 1.0f), vec4(1.0f, 1.0f, 0.0f, 1.0f), l);
-};
+void main(void) {\
+    gl_FragColor = mix(vec4(1.0, 0.0, 0.0, 1.0), vec4(1.0, 1.0, 0.0, 1.0), l);\
+}';
