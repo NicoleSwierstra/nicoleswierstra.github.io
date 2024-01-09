@@ -1,4 +1,4 @@
-export { getShaderFrom, getShaderFromFile, Shader};
+export { getShaderFrom, getShaderFromFile, Shader, setshadercontext };
 
 var gl;
 
