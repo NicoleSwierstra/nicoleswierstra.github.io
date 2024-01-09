@@ -1,6 +1,16 @@
 #define TAU 6.28318530717958623199592693709
 #define timefunc (glfwGetTime() * 0.025f * ft.ft)
 #define rand_div 0.000030518509476f
+
+const unsigned int roadx = 11;
+const unsigned int roady = 200;
+const float scalex = 2.5f;
+const float scaley = 60.0f;
+const unsigned int mountainx = 20;
+const unsigned int sunres = 64;
+const float end_dist = scaley * 35.0f;
+float dist_traveled = 0.0f;
+
 std::vector<glm::vec3> roadBuffer;
 std::vector<unsigned int> roadIndex;
 std::vector<glm::vec3> rmbuffer;
