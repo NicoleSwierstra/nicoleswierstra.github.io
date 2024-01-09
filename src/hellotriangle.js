@@ -87,7 +87,7 @@ void main(void) {\
     gl_FragColor = mix(vec4(1.0, 0.0, 0.0, 1.0), vec4(1.0, 1.0, 0.0, 1.0), l);\
 }';
 
-var sunShader = getShaderFrom(sunvert, sunfrag);
+var sunShader = getShaderFromFile("src/video-game-background/sun.shader");
 
 gl.bindBuffer(gl.ARRAY_BUFFER, sun_vb);
 var position = gl.getAttribLocation(sunShader, "position");
