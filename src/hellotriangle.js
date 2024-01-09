@@ -67,27 +67,7 @@ var road_ib = gl.createBuffer();
 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sun_ib);
 gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(sunindex), gl.STATIC_DRAW);
 
-let sunvert = '\
-attribute vec3 position; \
-\
-uniform mat4 u_MVP; \
-uniform mat4 trans; \
-varying float l; \
-\
-void main(void) { \
-    gl_Position = u_MVP * trans * vec4(position, 1.0); \
-    l = position.z / 160.0; \
-}';
-
-let sunfrag = '\
-precision mediump float;\
-varying float l;\
-\
-void main(void) {\
-    gl_FragColor = mix(vec4(1.0, 0.0, 0.0, 1.0), vec4(1.0, 1.0, 0.0, 1.0), l);\
-}';
-
-var sunShader = getShaderFromFile("src/video-game-background/sun.shader");
+var sunShader = await getShaderFromFile("src/video-game-background/sun.shader");
 
 gl.bindBuffer(gl.ARRAY_BUFFER, sun_vb);
 var position = gl.getAttribLocation(sunShader, "position");
