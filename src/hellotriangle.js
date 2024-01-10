@@ -45,7 +45,7 @@ let lmindex = [];
 let rmbuffer = [];
 let rmindex = [];
 let starbuffer = [];
-let starbuffer = [];
+let starindex = [];
 
 for (let i = 0; i < sunres; i++) {
     let h = i * TAU;
