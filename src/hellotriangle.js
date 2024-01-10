@@ -176,8 +176,6 @@ var animate = function(time) {
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sun_ib);
     gl.drawElements(gl.TRIANGLES, sunindex.length, gl.UNSIGNED_SHORT, 0);
 
-
-
     window.requestAnimationFrame(animate);
 }
 

@@ -15,6 +15,6 @@ void main() {
 varying float l;
 
 void main() {
-	float lighting = 1;
-	gl_FragColor = mix(vec4(0.125, 0.125, 0.15, 0.95), vec4(0.0, 0.0, 0.0, 1.0), 1-l) * lighting;
+	float lighting = 1.0;
+	gl_FragColor = mix(vec4(0.125, 0.125, 0.15, 0.95), vec4(0.0, 0.0, 0.0, 1.0), 1.0-l) * lighting;
 }

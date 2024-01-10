@@ -24,6 +24,6 @@ void main() {
 	vec3 lightDir = normalize(vec3(0.0, 20.0, 4.0) - offset.xyz);
 	vec3 reflectDir = reflect(lightDir, norm);
 	float spec = pow(max(dot(vec3(0, 0, -1), reflectDir), 0.0), 8);
-	vec3 col = vec3(0.05, 0.05, 0.05) + (vec3(1.0f, 0.7, 0.5) * spec * 1.5);
+	vec3 col = vec3(0.05, 0.05, 0.05) + (vec3(1.0, 0.7, 0.5) * spec * 1.5);
 	gl_FragColor = vec4(col, 1.0);
 }

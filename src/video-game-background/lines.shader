@@ -1,5 +1,5 @@
 #shader vertex
-attribute vec3 position;
+attribute vec4 position;
 
 uniform mat4 u_MVP;
 uniform mat4 trans;
