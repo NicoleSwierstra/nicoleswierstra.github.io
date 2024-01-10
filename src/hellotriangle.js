@@ -26,7 +26,7 @@ const rot = glm.rotate(glm.mat4(1.), glm.radians(-65.), glm.vec3(1.0, 0.0, 0.0))
 let trans = glm.mat4(1.0);
 let trans2 = glm.mat4(1.0);
 let pos = glm.vec3(0.0, 0.0, -1.0);
-let suntrans = glm.translate(rot, glm.vec3(0.0, (5 * scaley) + end_dist, 0.0));
+let suntrans = glm.translate(rot, glm.vec3(0.0, (40 * scaley), 0.0));
 
 console.log(pos);
 
