@@ -9,9 +9,9 @@ varying vec3 Normal;
 varying vec4 offset;
 
 void main() {
-	gl_Position = u_MVP * trans * position;
-	Normal = vec3(0.0, 1.0, 0.0)
 	offset = trans * position;
+	Normal = vec3(0.0, 1.0, 0.0)
+	gl_Position = u_MVP * trans * position;
 };
 
 #shader fragment

@@ -7,8 +7,8 @@ uniform mat4 trans;
 varying float l;
 
 void main() {
-	gl_Position = (u_MVP * trans * vec4(position, 1.0)) + vec4(0.0, 0.0, -0.0001, 0.0);
 	l = ((trans * position).y + 5.0) / 30.0;
+	gl_Position = (u_MVP * trans * vec4(position, 1.0)) + vec4(0.0, 0.0, -0.0001, 0.0);
 };
 
 #shader fragment
