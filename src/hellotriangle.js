@@ -57,7 +57,7 @@ for (let i = 1; i <= sunres; i++) {
 
 for (let y = 0; y < roady; y++) {
     for (let x = 0; x < roadx; x++) {
-        roadBuffer.push(scalex * (x / (roadx - 1)) - (0.5 * scalex), scaley * (y / (roady - 1)) - 0.5 * scaley, 0.0);
+        roadverts.push(scalex * (x / (roadx - 1)) - (0.5 * scalex), scaley * (y / (roady - 1)) - 0.5 * scaley, 0.0);
     }
 }
 
@@ -71,8 +71,8 @@ for (let y = 0; y < (roady - 1); y++) {
 
 for (let y = 0; y < roady * 0.25; y++) {
     for (let x = 0; x < mountainx; x++) {
-        let xo = roadBuffer[0].x - 1.5 * x,
-            x2 = -roadBuffer[0].x + 1.5 * x,
+        let xo = roadverts[0].x - 1.5 * x,
+            x2 = -roadverts[0].x + 1.5 * x,
             yo = (scaley * (4 * y / (roady - 1))) - (0.5 * scaley);
         lmbuffer.push(xo, yo, (x != 0) ? 2 * pow((rand() / RAND_MAX), 2) : 0.0);
         rmbuffer.push(x2, yo, (x != 0) ? 2 * pow((rand() / RAND_MAX), 2) : 0.0);
