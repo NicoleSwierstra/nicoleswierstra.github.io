@@ -5,7 +5,7 @@ import { getShaderFrom, getShaderFromFile, setshadercontext } from "/src/modules
 setshadercontext(gl);
 
 canvas.width = document.body.clientWidth;
-canvas.height = canvas.width * 0.5625 
+canvas.height = canvas.width * 0.8
 
 function hexToRgb(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
