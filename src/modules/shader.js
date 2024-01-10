@@ -36,6 +36,8 @@ function getShaderFrom(vert, frag){
 async function getShaderFromFile(path, gl){
     var allContents = await fetch(path).then(x => x.text());
 
+    console.log("getting shader " + path);
+
     var shaders = ["", ""];
     var type = 0;
     allContents.split(/\r?\n/).forEach((line) => {
