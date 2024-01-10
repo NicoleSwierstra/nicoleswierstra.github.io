@@ -79,8 +79,8 @@ for (let x = 0; x < mountainx; x++) {
     let xo = roadverts[0].x - 1.5 * x,
         x2 = -roadverts[0].x + 1.5 * x,
         yo = (scaley * (4 * (roady * 0.25) / (roady - 1))) - (0.5 * scaley);
-    lmbuffer.push_back(xo, yo, lmbuffer[x].z);
-    rmbuffer.push_back(x2, yo, rmbuffer[x].z);
+    lmbuffer.push(xo, yo, lmbuffer[x].z);
+    rmbuffer.push(x2, yo, rmbuffer[x].z);
 }
 
 var sun_vb = gl.createBuffer();
