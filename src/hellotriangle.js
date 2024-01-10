@@ -1,9 +1,6 @@
 var canvas = document.getElementById('my_Canvas');
 var gl = canvas.getContext('experimental-webgl');
 
-import { getShaderFrom, getShaderFromFile, setshadercontext } from "/src/modules/shader.js";
-setshadercontext(gl);
-
 canvas.width = document.body.clientWidth;
 canvas.height = canvas.width * 0.8
 
@@ -74,8 +71,8 @@ for (let y = 0; y < roady * 0.25; y++) {
         let xo = roadverts[0].x - 1.5 * x,
             x2 = -roadverts[0].x + 1.5 * x,
             yo = (scaley * (4 * y / (roady - 1))) - (0.5 * scaley);
-        lmbuffer.push(xo, yo, (x != 0) ? 2 * pow((rand() / RAND_MAX), 2) : 0.0);
-        rmbuffer.push(x2, yo, (x != 0) ? 2 * pow((rand() / RAND_MAX), 2) : 0.0);
+        lmbuffer.push(xo, yo, (x != 0) ? 2 * Math.pow(Math.random(), 2) : 0.0);
+        rmbuffer.push(x2, yo, (x != 0) ? 2 * Math.pow(Math.random(), 2) : 0.0);
     }
 }
 for (let x = 0; x < mountainx; x++) {
@@ -117,6 +114,9 @@ gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(rmbuffer), gl.STATIC_DRAW);
 var rmountain_ib = gl.createBuffer();
 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sun_ib);
 gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(rmindex), gl.STATIC_DRAW);
+
+import { getShaderFrom, getShaderFromFile, setshadercontext } from "/src/modules/shader.js";
+setshadercontext(gl);
 
 var sunShader = await getShaderFromFile("src/video-game-background/sun.shader");
 var roadShader = await getShaderFromFile("src/video-game-background/surface.shader");
