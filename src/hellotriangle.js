@@ -19,11 +19,8 @@ const scalex = 2.5;
 const scaley = 60.0;
 const mountainx = 20;
 const sunres = 64;
-const end_dist = scaley * 10;
-var dist_traveled = 0.0;
 
 const TAU = 6.28318530717958623199592693709
-const rand_div = 0.000030518509476
 
 const rot = glm.rotate(glm.mat4(1.), glm.radians(-65.), glm.vec3(1.0, 0.0, 0.0));
 let trans = glm.mat4(1.0);
@@ -83,6 +80,12 @@ for (let x = 0; x < mountainx; x++) {
     rmbuffer.push(x2, yo, rmbuffer[x].z);
 }
 
+//assigns stars random positions
+for (let n = 0; n < 10000; n++) {
+    starbuffer.push(30.0 - Math.random() * scaley, 0.0 - Math.random() * scaley, 2.5 + Math.random() * 8.0);
+    starindex.push(n);
+}
+
 var sun_vb = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, sun_vb);
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(sunverts), gl.STATIC_DRAW);
@@ -92,28 +95,36 @@ gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sun_ib);
 gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(sunindex), gl.STATIC_DRAW);
 
 var road_vb = gl.createBuffer();
-gl.bindBuffer(gl.ARRAY_BUFFER, sun_vb);
+gl.bindBuffer(gl.ARRAY_BUFFER, road_vb);
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(roadverts), gl.STATIC_DRAW);
 
 var road_ib = gl.createBuffer();
-gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sun_ib);
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, road_ib);
 gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(roadindex), gl.STATIC_DRAW);
 
 var lmountain_vb = gl.createBuffer();
-gl.bindBuffer(gl.ARRAY_BUFFER, sun_vb);
+gl.bindBuffer(gl.ARRAY_BUFFER, lmountain_vb);
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(lmbuffer), gl.STATIC_DRAW);
 
 var lmountain_ib = gl.createBuffer();
-gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sun_ib);
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, lmountain_ib);
 gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(lmindex), gl.STATIC_DRAW);
 
 var rmountain_vb = gl.createBuffer();
-gl.bindBuffer(gl.ARRAY_BUFFER, sun_vb);
+gl.bindBuffer(gl.ARRAY_BUFFER, rmountain_vb);
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(rmbuffer), gl.STATIC_DRAW);
 
 var rmountain_ib = gl.createBuffer();
-gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sun_ib);
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, rmountain_ib);
 gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(rmindex), gl.STATIC_DRAW);
+
+var stars_vb = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, stars_vb);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(starbuffer), gl.STATIC_DRAW);
+
+var stars_ib = gl.createBuffer();
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, stars_ib);
+gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(starindex), gl.STATIC_DRAW);
 
 import { getShaderFrom, getShaderFromFile, setshadercontext } from "/src/modules/shader.js";
 setshadercontext(gl);
