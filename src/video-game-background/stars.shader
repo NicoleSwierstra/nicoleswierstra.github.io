@@ -1,6 +1,4 @@
 #shader vertex
-#version 330 core
-
 attribute vec3 position;
 
 uniform mat4 u_MVP;
@@ -14,8 +12,6 @@ void main() {
 }
 
 #shader fragment
-#version 330 core
-
 varying float l;
 
 void main() {
