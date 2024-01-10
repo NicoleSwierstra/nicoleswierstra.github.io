@@ -54,6 +54,7 @@ body {
     font-weight: bold;
     text-align: left;
     margin: auto;
+    max-width: 1000px;
 }
 
 .left-paragraph {
