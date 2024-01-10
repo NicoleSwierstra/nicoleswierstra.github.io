@@ -65,7 +65,7 @@ for (let y = 0; y < (roady - 1); y++) {
     for (let x = 0; x < (roadx - 1); x++) {
         let s = (y * roadx) + x;
         let s1 = ((y + 1) * roadx) + x;
-        roadIndex.push( s, s + 1, s1, s1, s1 + 1, s + 1 );
+        roadindex.push( s, s + 1, s1, s1, s1 + 1, s + 1 );
     }
 }
 
@@ -79,8 +79,8 @@ for (let y = 0; y < roady * 0.25; y++) {
     }
 }
 for (let x = 0; x < mountainx; x++) {
-    let xo = roadBuffer[0].x - 1.5 * x,
-        x2 = -roadBuffer[0].x + 1.5 * x,
+    let xo = roadverts[0].x - 1.5 * x,
+        x2 = -roadverts[0].x + 1.5 * x,
         yo = (scaley * (4 * (roady * 0.25) / (roady - 1))) - (0.5 * scaley);
     lmbuffer.push_back(xo, yo, lmbuffer[x].z);
     rmbuffer.push_back(x2, yo, rmbuffer[x].z);
