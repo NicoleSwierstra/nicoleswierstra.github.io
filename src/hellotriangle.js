@@ -38,6 +38,14 @@ console.log(pos);
 
 let sunverts = [0.0, 0.0, 0.0];
 let sunindex = [];
+let roadverts = [];
+let roadindex = [];
+let lmbuffer = [];
+let lmindex = [];
+let rmbuffer = [];
+let rmindex = [];
+let starbuffer = [];
+let starbuffer = [];
 
 for (let i = 0; i < sunres; i++) {
     let h = i * TAU;
@@ -47,51 +55,81 @@ for (let i = 1; i <= sunres; i++) {
     sunindex.push(0, i, i % sunres ? i + 1 : 1);
 }
 
-// Create and store data into vertex buffer
+for (let y = 0; y < roady; y++) {
+    for (let x = 0; x < roadx; x++) {
+        roadBuffer.push(scalex * (x / (roadx - 1)) - (0.5 * scalex), scaley * (y / (roady - 1)) - 0.5 * scaley, 0.0);
+    }
+}
+
+for (let y = 0; y < (roady - 1); y++) {
+    for (let x = 0; x < (roadx - 1); x++) {
+        let s = (y * roadx) + x;
+        let s1 = ((y + 1) * roadx) + x;
+        roadIndex.push( s, s + 1, s1, s1, s1 + 1, s + 1 );
+    }
+}
+
+for (let y = 0; y < roady * 0.25; y++) {
+    for (let x = 0; x < mountainx; x++) {
+        let xo = roadBuffer[0].x - 1.5 * x,
+            x2 = -roadBuffer[0].x + 1.5 * x,
+            yo = (scaley * (4 * y / (roady - 1))) - (0.5 * scaley);
+        lmbuffer.push(xo, yo, (x != 0) ? 2 * pow((rand() / RAND_MAX), 2) : 0.0);
+        rmbuffer.push(x2, yo, (x != 0) ? 2 * pow((rand() / RAND_MAX), 2) : 0.0);
+    }
+}
+for (let x = 0; x < mountainx; x++) {
+    let xo = roadBuffer[0].x - 1.5 * x,
+        x2 = -roadBuffer[0].x + 1.5 * x,
+        yo = (scaley * (4 * (roady * 0.25) / (roady - 1))) - (0.5 * scaley);
+    lmbuffer.push_back(xo, yo, lmbuffer[x].z);
+    rmbuffer.push_back(x2, yo, rmbuffer[x].z);
+}
+
 var sun_vb = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, sun_vb);
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(sunverts), gl.STATIC_DRAW);
 
-// Create and store data into index buffer
 var sun_ib = gl.createBuffer();
 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sun_ib);
 gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(sunindex), gl.STATIC_DRAW);
 
-// Create and store data into vertex buffer
 var road_vb = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, sun_vb);
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(sunverts), gl.STATIC_DRAW);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(roadverts), gl.STATIC_DRAW);
 
-// Create and store data into index buffer
 var road_ib = gl.createBuffer();
 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sun_ib);
-gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(sunindex), gl.STATIC_DRAW);
+gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(roadindex), gl.STATIC_DRAW);
 
-let sunvert = '\
-attribute vec3 position; \
-\
-uniform mat4 u_MVP; \
-uniform mat4 trans; \
-varying float l; \
-\
-void main(void) { \
-    gl_Position = u_MVP * trans * vec4(position, 1.0); \
-    l = position.z / 160.0; \
-}';
+var lmountain_vb = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, sun_vb);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(lmbuffer), gl.STATIC_DRAW);
 
-let sunfrag = '\
-precision mediump float;\
-varying float l;\
-\
-void main(void) {\
-    gl_FragColor = mix(vec4(1.0, 0.0, 0.0, 1.0), vec4(1.0, 1.0, 0.0, 1.0), l);\
-}';
+var lmountain_ib = gl.createBuffer();
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sun_ib);
+gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(lmindex), gl.STATIC_DRAW);
+
+var rmountain_vb = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, sun_vb);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(rmbuffer), gl.STATIC_DRAW);
+
+var rmountain_ib = gl.createBuffer();
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sun_ib);
+gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(rmindex), gl.STATIC_DRAW);
 
 var sunShader = await getShaderFromFile("src/video-game-background/sun.shader");
+var roadShader = await getShaderFromFile("src/video-game-background/surface.shader");
+var mountains = await getShaderFromFile("src/video-game-background/mountains.shader");
+var lineshadr = await getShaderFromFile("src/video-game-background/lines.shader");
+var starshadr = await getShaderFromFile("src/video-game-background/stars.shader");
 
 gl.bindBuffer(gl.ARRAY_BUFFER, sun_vb);
-var position = gl.getAttribLocation(sunShader, "position");
+var sun_vertpointer = gl.getAttribLocation(sunShader, "position");
+var surf_vertpointer = gl.getAttribLocation(roadShader, "position");
 gl.vertexAttribPointer(position, 3, gl.FLOAT, false,0,0);
+
+console.log("sun: " + sun_vertpointer + ", surf: ", surf_vertpointer);
 
 // Position
 gl.enableVertexAttribArray(position);
@@ -99,7 +137,6 @@ gl.useProgram(sunShader);
 
 var proj_matrix = glm.perspective(glm.radians(90.0), canvas.width / canvas.height, 0.1, 5000.0);
 
-gl.uniformMatrix4fv(gl.getUniformLocation(sunShader, "u_MVP"), false, proj_matrix.array);
 gl.uniformMatrix4fv(gl.getUniformLocation(sunShader, "u_MVP"), false, proj_matrix.array);
 gl.uniformMatrix4fv(gl.getUniformLocation(sunShader, "trans"), false, suntrans.array);
 
@@ -117,6 +154,8 @@ var animate = function(time) {
     gl.viewport(0.0, 0.0, canvas.width, canvas.height);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+    pos += scrollspeed * time;
+
     trans = glm.translate(rot, pos);
     trans2 = glm.translate(rot, pos['+'](glm.vec3(0, scaley, 0)));
 
@@ -125,6 +164,8 @@ var animate = function(time) {
     gl.useProgram(sunShader);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sun_ib);
     gl.drawElements(gl.TRIANGLES, sunindex.length, gl.UNSIGNED_SHORT, 0);
+
+
 
     window.requestAnimationFrame(animate);
 }
