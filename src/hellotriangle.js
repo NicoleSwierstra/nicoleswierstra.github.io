@@ -1,14 +1,14 @@
 var canvas = document.getElementById('my_Canvas');
 var gl = canvas.getContext('experimental-webgl');
 
-canvas.width = screen.width;
-canvas.height = screen.availHeight; 
+canvas.width = window.screen.width;
+canvas.height = window.screen.height; 
 
 canvas.style.position = "fixed";
 canvas.style.top = "0";
 canvas.style.left = "0";
 canvas.style.zIndex = "-9999";
-canvas.style.opacity = "0.5";
+canvas.style.opacity = "1";
 
 
 function hexToRgb(hex) {
@@ -20,7 +20,7 @@ function hexToRgb(hex) {
     } : null;
 }
 
-const scrollspeed = 10;
+const scrollspeed = 2;
 const roadx = 11;
 const roady = 200;
 const scalex = 2.5;
