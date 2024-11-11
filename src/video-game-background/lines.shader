@@ -8,10 +8,12 @@ varying float l;
 
 void main() {
 	l = ((trans * position).y + 5.0) / 30.0;
-	gl_Position = (u_MVP * trans * vec4(position, 1.0)) + vec4(0.0, 0.0, -0.0001, 0.0);
+	gl_Position = (u_MVP * trans * position) + vec4(0.0, 0.0, -0.0001, 0.0);
+	gl_PointSize = 2.0;
 }
 
 #shader fragment
+precision highp float;
 varying float l;
 
 void main() {

@@ -12,6 +12,7 @@ void main() {
 }
 
 #shader fragment
+precision highp float;
 varying float l;
 
 void main() {
