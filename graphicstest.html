@@ -19,19 +19,75 @@
     <canvas width = 600px height = 480px id = "my_Canvas"></canvas>
     <body>
         
-        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-        hello.
+        <div style="margin: 250px;">
+            <br>
+        </div>
 
-        <br><br>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mattis nulla a consequat condimentum. Sed tortor nisl, euismod nec diam at, tempor semper nulla. Pellentesque luctus iaculis turpis, cursus elementum nisl aliquam eu. Proin id nibh fringilla, consectetur eros vel, vulputate massa. Vestibulum fringilla commodo purus, sed pharetra dui iaculis nec. Maecenas efficitur iaculis leo at gravida. Quisque sit amet condimentum libero. Maecenas consequat viverra eros, at posuere nibh aliquet id. Quisque eu magna in risus tincidunt sodales. Ut scelerisque rhoncus tortor vel tincidunt. Phasellus nec ligula commodo, pellentesque nibh at, convallis tortor. Suspendisse non ullamcorper ipsum, et luctus orci. Suspendisse sed malesuada elit. Curabitur volutpat ex non purus auctor tempor. Cras a mauris ornare, malesuada ipsum id, dictum est.
-        <br><br>
-        Morbi euismod orci in ligula bibendum, quis gravida ante viverra. Phasellus ut lacinia lacus, vel ornare sapien. Cras ultrices mollis sapien, non laoreet risus congue sit amet. Vivamus ut tempus tortor. Donec a felis eros. Aliquam erat volutpat. Donec ultricies malesuada laoreet. Sed mi est, porttitor id metus sed, accumsan consectetur libero. Cras dictum lectus felis, ac iaculis leo tempus sed. Maecenas et ornare dui, a faucibus quam. Integer in enim nec lectus accumsan eleifend. Ut volutpat arcu vitae lorem gravida volutpat.
-        <br><br>
-        Sed semper augue aliquam sagittis placerat. Sed nec enim dictum, molestie nunc id, pellentesque urna. Sed commodo lorem a neque facilisis, quis efficitur dolor convallis. Vestibulum mollis, odio a tristique porta, felis risus venenatis massa, eget euismod nisl enim in risus. Mauris aliquet lectus vel semper varius. Quisque pellentesque interdum risus, sed suscipit ex mollis nec. Morbi et sem ac orci volutpat rhoncus. Vivamus odio ante, pharetra eu sem et, accumsan rutrum massa. Donec vitae nisl lectus. Fusce varius lacus ante, luctus scelerisque nisl malesuada fringilla. Ut quis magna bibendum, hendrerit sem nec, tincidunt enim. Nullam varius, urna sit amet elementum sodales, est risus tempor turpis, dictum tempor est orci eget urna.
-        <br><br>
-        Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam ultricies molestie ipsum eget vestibulum. Sed pharetra, nulla vel tempus bibendum, lectus lacus mollis erat, id tempus neque tellus nec eros. Nunc egestas justo ante, vestibulum tristique libero luctus ac. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec urna felis, dictum eget interdum at, viverra ut arcu. Cras ut nulla tincidunt, viverra est nec, volutpat lacus. Vestibulum ut facilisis quam. Nulla non enim erat. Nulla eleifend mauris sit amet ipsum varius rhoncus. Nam iaculis elit eu arcu molestie, non finibus neque rhoncus. Suspendisse gravida purus vitae orci tristique, faucibus suscipit risus eleifend. Duis nec ultrices metus. Proin semper nec mi vel aliquet.
-        <br><br>
-        Donec sollicitudin quis leo eu egestas. Phasellus ac porttitor lacus, eu pharetra risus. Suspendisse sit amet tempus lectus. Nulla ac purus pulvinar sem rhoncus feugiat a quis justo. Ut tincidunt orci at massa vehicula, in suscipit erat pharetra. Suspendisse egestas felis id orci rutrum, aliquam consectetur lacus lobortis. Proin ac fermentum lectus. Phasellus nec dui efficitur, lobortis lorem ut, finibus est. Vestibulum non suscipit magna, ac rhoncus neque. Aenean eu sapien ut felis eleifend congue nec a dui. In bibendum justo ligula. Nulla at mauris id lectus lacinia gravida. Duis mollis elit rutrum magna vulputate mollis eu ac felis. Curabitur vestibulum lectus quam, in tincidunt urna luctus vel. Sed condimentum rhoncus velit in interdum. Aliquam suscipit diam ligula, eu dictum mi faucibus tempor.
+        <div style="text-align: center;font-size: 50pt;opacity: 0.5; margin-bottom: 100px;">
+            ▽
+        </div>
 
+        <div style="background-color: var(--d_dark-grey);">
+            <br>
+            <h1 class="full-paragraph">
+                Portfolio
+            </h1>
+           
+            <div style="margin-bottom:20pt">
+                <h2 class="full-paragraph">
+                    Viking 66 VCU OS
+                </h2>
+                <figure style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+                    <img src="res/V66CodeSnippet.png" style="width: 100%; display: block;">
+                    <figcaption>V66 VCU Code Snippet</figcaption>
+                </figure>
+                <div class="full-paragraph">
+                    The V66 VCU was the controller that powered the Viking 66 FSAE car.
+                    The processor was a little underpowered, so required a very optimized control algorithm to get it working anywhere near real time.
+                    <br><br>
+                </div>
+                <div style="display: flex; width: 100%;"> 
+                    <div class="left-paragraph">
+                        The VCU takes in sensor data from the accelerator pedal and the brake pedal in order to figure out how much torque the motor should put out.
+                        Because of the low power and lack of FPU in the chip, only a couple dozen floating point operations are used. 
+                        <br><br>
+                        The VCU Talks to a cascadia motion CM200 over the CAN bus, and reveals internal state over CAN as well.
+                        <br>
+                    </div>
+                    <figure style="width: 40%; margin-right: 5%; float:right;">
+                        <img src="res/V66-testing.png" style="width: 100%; display: block;">
+                        <figcaption>Testing for the control algorithm</figcaption>
+                    </figure>
+                </div>
+                <div style="display: flex; width:100%"> 
+                    <figure style="width: 40%; margin-left: 5%; float:left; display: inline;">
+                        <video src="res/workingVCU.mp4" style="width: 100%; display: block;" autoplay loop muted></video>
+                        <figcaption>Early working VCU</figcaption>
+                    </figure>
+                    <div class="right-paragraph"> 
+                        <br><br>
+                        The realtime control algorithm runs once every 5ms. The entire thing is written very baremetal, with a custom RTOS sitting on top of bare CMSIS register bindings
+                        <br><br>
+                        In the future, I hope to move the entire program over to chibiOS, but the performance hit for such a gutless chip may be too great
+                    </div>
+                </div>
+                <div class="full-paragraph" style="width: 100%;"><br><br></div> 
+            </div>
+
+            <div style="display: block; width: 100%;">
+                <h2 class="full-paragraph">
+                    Viking 67 VCU
+                </h2>
+                <figure style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+                    <img src="res/V67LinuxStmPCB.png" style="width: 100%; display: block;">
+                    <figcaption>Early Design for the V67 VCU</figcaption>
+                </figure>
+                <div class="full-paragraph">
+                    The V67 VCU is a work in progress ASMP board with a linux system sitting on top of a real time subsystem.
+                    Initially designed for the stm32MP1, chip selection is still in progress. 
+                </div>
+            </div>
+            <div style="margin-bottom: 400px;"><br></div>
+        </div>
     </body>
 </html>

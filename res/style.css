@@ -48,18 +48,56 @@
 
 body {
     background-color: var(--d_dark-grey);
-    font-size: 18pt;
+    position: relative;
+    font-size: 14pt;
     color:white;
     font-family: CascadiaCode;
-    font-weight: bold;
+    font-weight: lighter;
     text-align: left;
     margin: auto;
     max-width: 1000px;
 }
 
+h1 {
+    font-size: 36pt;
+    display: block;
+    color: var(--pale-blue);
+    font-weight: bold;
+}
+
+h2 {
+    display: block;
+    font-size: 28pt;
+    color: var(--pale-blue);
+    font-weight: bold;
+}
+
+figcaption{
+    font-size: 12pt;
+    font-weight: bold;
+    color: var(--light-grey)
+}
+
 .left-paragraph {
-    display:block; 
     margin-left: 5%; 
-    margin-top: 100px; 
-    margin-right: 55%;
+    margin-top: 10px; 
+    width: 45%;
+    display: inline;
+    float:left; 
+}
+
+.right-paragraph {
+    float:right;
+    display: inline;
+    width: 45%;
+    margin-top: 10px; 
+    margin-right: 5%;
+}
+
+.full-paragraph {
+    width: 90%;
+    display: block;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 20px;
 }

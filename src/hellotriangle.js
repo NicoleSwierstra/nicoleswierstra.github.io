@@ -1,5 +1,5 @@
 var canvas = document.getElementById('my_Canvas');
-var gl = canvas.getContext('experimental-webgl');
+var gl = canvas.getContext('webgl2');
 
 canvas.width = window.screen.width;
 canvas.height = window.screen.height; 
@@ -20,7 +20,7 @@ function hexToRgb(hex) {
     } : null;
 }
 
-const scrollspeed = 2;
+const scrollspeed = 1.2;
 const roadx = 11;
 const roady = 200;
 const scalex = 2.5;
@@ -30,7 +30,7 @@ const sunres = 64;
 
 const TAU = 6.28318530717958623199592693709 // not accurate enough :(
 
-const rot = glm.rotate(glm.mat4(1.), glm.radians(-65.), glm.vec3(1.0, 0.0, 0.0));
+let rot = glm.rotate(glm.mat4(1.), glm.radians(-65.), glm.vec3(1.0, 0.0, 0.0));
 let trans = glm.mat4(1.0);
 let trans2 = glm.mat4(1.0);
 let pos = glm.vec3(0.0, 0.0, -1.0);
@@ -92,12 +92,9 @@ for (let y = 0; y < (roady * 0.25); y++) {
     for (let x = 0; x < (mountainx - 1); x++) {
         let s = (y * mountainx) + x;
         let s1 = ((y + 1) * mountainx) + x;
-        mindex.push( s, s + 1, s1, s1, s1 + 1, s + 1 );
+        mindex.push( s1, s + 1, s, s1, s + 1, s1 + 1 );
     }
 }
-
-console.log(lmbuffer)
-console.log(mindex)
 
 //assigns stars random positions
 for (let n = 0; n < 10000; n++) {
@@ -198,16 +195,23 @@ var animate = function(time) {
     gl.viewport(0.0, 0.0, canvas.width, canvas.height);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    pos = glm.vec3(0, (pos.y - (scrollspeed * dt)), -1);
+    let scmut = Math.min(Math.max(0, 600 - window.scrollY), 300) / 300.0;
+    rot = glm.rotate(glm.mat4(1.), glm.radians((30*(1-scmut)) - 70.), glm.vec3(1.0, 0.0, 0.0));
+    pos = glm.vec3(0, (pos.y - (scrollspeed * dt * scmut)), -1.5);
+
+    let opmut = Math.min(Math.max(0, 1000 - window.scrollY), 800) / 800.0;
+    canvas.style.opacity = String(opmut);
 
     if (pos.y < -30) {pos.y += scaley}
 
+    suntrans = glm.translate(rot, glm.vec3(0.0, (20 * scaley), 0.0));
     trans = glm.translate(rot, pos);
     trans2 = glm.translate(rot, glm.vec3(pos.x, pos.y + scaley, pos.z));
  
     gl.useProgram(sunShader); 
     gl.bindBuffer(gl.ARRAY_BUFFER, sun_vb);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sun_ib);
+    gl.uniformMatrix4fv(gl.getUniformLocation(sunShader, "trans"), false, suntrans.array);
     gl.vertexAttribPointer(sun_vertpointer, 3, gl.FLOAT, false, 0, 0 );
     gl.drawElements(gl.TRIANGLES, sunindex.length, gl.UNSIGNED_SHORT, 0);
  
@@ -250,17 +254,17 @@ var animate = function(time) {
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, mountain_ib);
     gl.vertexAttribPointer(line_vertpointer, 3, gl.FLOAT, false, 0, 0 );  
     gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans.array);
-    gl.drawElements(gl.LINES, mindex.length, gl.UNSIGNED_SHORT, 0);
+    gl.drawElements(gl.LINE_STRIP, mindex.length, gl.UNSIGNED_SHORT, 0);
     gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans2.array); 
-    gl.drawElements(gl.LINES, mindex.length, gl.UNSIGNED_SHORT, 0);
+    gl.drawElements(gl.LINE_STRIP, mindex.length, gl.UNSIGNED_SHORT, 0);
     
     gl.bindBuffer(gl.ARRAY_BUFFER, rmountain_vb);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, mountain_ib);
     gl.vertexAttribPointer(line_vertpointer, 3, gl.FLOAT, false, 0, 0 );
     gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans.array) 
-    gl.drawElements(gl.LINES, mindex.length, gl.UNSIGNED_SHORT, 0)
+    gl.drawElements(gl.LINE_STRIP, mindex.length, gl.UNSIGNED_SHORT, 0)
     gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans2.array) 
-    gl.drawElements(gl.LINES, mindex.length, gl.UNSIGNED_SHORT, 0);
+    gl.drawElements(gl.LINE_STRIP, mindex.length, gl.UNSIGNED_SHORT, 0);
 
 
     gl.useProgram(starShader);
