@@ -1,8 +1,8 @@
 var canvas = document.getElementById('my_Canvas');
 var gl = canvas.getContext('experimental-webgl');
 
-canvas.width = window.screen.width;
-canvas.height = window.screen.height; 
+canvas.width = window.viewport.width;
+canvas.height = window.viewport.height; 
 
 canvas.style.position = "fixed";
 canvas.style.top = "0";
