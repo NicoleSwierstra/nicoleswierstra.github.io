@@ -204,7 +204,7 @@ var animate = function(time) {
 
     if (pos.y < -30) {pos.y += scaley}
 
-    suntrans = glm.translate(rot, glm.vec3(0.0, (20 * scaley), 0.0));
+    suntrans = glm.translate(rot, glm.vec3(0.0, (15 * scaley), 0.0));
     trans = glm.translate(rot, pos);
     trans2 = glm.translate(rot, glm.vec3(pos.x, pos.y + scaley, pos.z));
  

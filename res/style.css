@@ -101,3 +101,8 @@ figcaption{
     margin-right: 5%;
     margin-top: 20px;
 }
+
+.full-width {
+    width: 100%;
+    display: flex;
+}

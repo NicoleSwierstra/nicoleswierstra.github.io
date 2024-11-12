@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="res/style.css">
 
     <div class="header">
-        <a href="index" class="logo">Nicole Swierstra</a>
+        <a href="index.html" class="logo">Nicole Swierstra</a>
         <div class="header-right">
             <a href="graphicstest.html">Portfolio</a>
             <a href="#about">About</a>
@@ -19,11 +19,11 @@
     <canvas width = 600px height = 480px id = "my_Canvas"></canvas>
     <body>
         
-        <div style="margin: 250px;">
+        <div style="margin-bottom: 55%;">
             <br>
         </div>
 
-        <div style="text-align: center;font-size: 50pt;opacity: 0.5; margin-bottom: 100px;">
+        <div style="text-align: center;font-size: 50pt;opacity: 0.5; margin-bottom: 50px;">
             ▽
         </div>
 
@@ -35,7 +35,7 @@
            
             <div style="margin-bottom:20pt">
                 <h2 class="full-paragraph">
-                    Viking 66 VCU OS
+                    Viking 66 VCU OS (2023-)
                 </h2>
                 <figure style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
                     <img src="res/V66CodeSnippet.png" style="width: 100%; display: block;">
@@ -56,12 +56,12 @@
                     </div>
                     <figure style="width: 40%; margin-right: 5%; float:right;">
                         <img src="res/V66-testing.png" style="width: 100%; display: block;">
-                        <figcaption>Testing for the control algorithm</figcaption>
+                        <figcaption>Testing the CAN control algorithm</figcaption>
                     </figure>
                 </div>
-                <div style="display: flex; width:100%"> 
-                    <figure style="width: 40%; margin-left: 5%; float:left; display: inline;">
-                        <video src="nicoleswierstra.github.io/res/workingVCU.mp4" style="width: 100%; display: block;" autoplay loop muted></video>
+                <div class="full-width"> 
+                    <figure style="width: 40%; margin-left: 5%; float:left;">
+                        <video src="res/workingVCU.mp4" style="width: 100%; display: block;" autoplay loop muted></video>
                         <figcaption>Early working VCU</figcaption>
                     </figure>
                     <div class="right-paragraph"> 
@@ -71,12 +71,74 @@
                         In the future, I hope to move the entire program over to chibiOS, but the performance hit for such a gutless chip may be too great
                     </div>
                 </div>
-                <div class="full-paragraph" style="width: 100%;"><br><br></div> 
+                <div class="full-width", style="display: block;">
+                    <div class="left-paragraph">
+                        The code I wrote was validated over several test days, and ended up shipping with the car to michigan.
+                        While I couldn't personally attend competition, and the car didn't pass tech, the code ended up working without a hitch
+                    </div>
+                    <figure style="width: 40%; margin-left: 5%; float:left; display: inline;">
+                        <video src="res/v66TestDay.MOV" style="width: 100%; display: block;" autoplay loop muted></video>
+                        <figcaption>The car during a test day</figcaption>
+                    </figure>
+                </div>
             </div>
 
-            <div style="display: block; width: 100%;">
+            <div style="width: 100%; margin-bottom: 20pt;">
                 <h2 class="full-paragraph">
-                    Viking 67 VCU
+                    Viking 66 Dash (2023-2024) 
+                </h2>
+               <div class="full-width">
+                    <div class="left-paragraph">
+                        The first project I did on the Formula SAE team.
+                        Origionally starting out as a project on a Teensy, 
+                        the plan was to design a module that would sit on the can bus and display state to the driver and communicate with the vcu. 
+                        <br><br> It started as a prototype with a cheap LCD, but quickly grew in scope
+                        <br>
+                    </div>
+                    <figure style="width: 40%; margin-left: 5%; float:right; display: inline;">
+                        <video src="res/RotatesYourCar.MP4" style="width: 100%; display: block;" autoplay loop muted></video>
+                        <figcaption>Very early dash prototype</figcaption>
+                    </figure>
+                </div> 
+                <div>
+                    <div class="right-paragraph">
+                        After half a dozen iterations, it was clear that the scope had balooned too much to continue to be an FSAE project, and it was shelved for the V66 year car.
+                        I continued to work on it to validate that my design worked.
+                        <br><br>
+                        In the 6th iteration, the chunky dot matrix module was swapped for a proper screen, and the teensy was swapped for an STM U5
+                    </div>
+                    <figure style="width: 40%; margin-left: 5%; float:left; display: inline;">
+                        <img src="res/V66-DASH-PROTOTYPE.png" style="width: 100%; display: block;">
+                        <figcaption>6th version of the dash in altium</figcaption>
+                    </figure>
+                </div>
+                <div class="full-width">
+                    <div class="left-paragraph">
+                        The super locked down graphics module on the STM32U5 turned out to be more trouble than it was worth, and the dash never got implemented to the car.
+                        The testing did end up giving valuble insight for future projects 
+                        <br><br>
+                    </div>
+                    <figure style="width: 40%; margin-right: 5%; float:right; display: inline;">
+                        <img src="res/V66-DASH-PROTOTYPE-FULL.png" style="width: 100%; display: block;">
+                        <figcaption>6th version of the dash, assembled</figcaption>
+                        
+                    </figure>
+                </div>
+                <div class="full-width" style="display: flex">
+                    <figure style="width: 30%; margin-left: 5%; float:left; display: block;">
+                        <img src="res/V66-DASH-PROTOTYPE-SCALE.png" style="width:100%; display: inline;">
+                        <figcaption>6th version of the dash, with quarter for scale</figcaption> 
+                    </figure>
+                    <figure style="width: 55%; margin-right: 5%; float:right; display: block;">
+                        <img src="res/DashFrontDesign.png" style="width: 100%;">
+                        <figcaption>Dash enclosure design</figcaption> 
+                    </figure>
+                </div>
+            </div>
+            
+            <div style="width: 100%;">
+                <h2 class="full-paragraph">
+                    Viking 67 VCU/Dash (2024-)
                 </h2>
                 <figure style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
                     <img src="res/V67LinuxStmPCB.png" style="width: 100%; display: block;">
@@ -84,7 +146,7 @@
                 </figure>
                 <div class="full-paragraph">
                     The V67 VCU is a work in progress ASMP board with a linux system sitting on top of a real time subsystem.
-                    Initially designed for the stm32MP1, chip selection is still in progress. 
+                    Initially designed for the stm32MP1, chip selection is still in progress. It drives a display and processes all driver input.
                 </div>
             </div>
             <div style="margin-bottom: 400px;"><br></div>
