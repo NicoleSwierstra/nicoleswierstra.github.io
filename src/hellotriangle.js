@@ -189,6 +189,17 @@ var bgcol = hexToRgb(getComputedStyle(canvas).getPropertyValue('--d_dark-grey'))
 
 gl.clearColor(bgcol.r/256.0, bgcol.g/256.0, bgcol.b/256.0, 1);
 gl.clearDepth(1.0);
+
+let mousex = 0, mousey = 0;
+
+document.addEventListener("mousemove", logKey);
+
+function logKey(e) {
+    if (e.screenX == NaN) return;
+    mousex = 2.0 * (e.screenX / canvas.width - 0.5);
+    mousey = 2.0 * (e.clientY / canvas.height - 0.5);
+}
+
 var animate = function(time) { 
     let dt = (time - time_old) / 1000.0;
     time_old = time
@@ -197,7 +208,11 @@ var animate = function(time) {
 
     let scmut = Math.min(Math.max(0, 600 - window.scrollY), 300) / 300.0;
     rot = glm.rotate(glm.mat4(1.), glm.radians((30*(1-scmut)) - 70.), glm.vec3(1.0, 0.0, 0.0));
+    rot = glm.rotate(rot, glm.radians(mousex * 10), glm.vec3(0.0, 0.0, 1.0))
+    rot = glm.rotate(rot, glm.radians(mousey * 10), glm.vec3(1.0, 0.0, 0.0))
     pos = glm.vec3(0, (pos.y - (scrollspeed * dt * scmut)), -1.5);
+
+    console.log(mousex, mousey)
 
     let opmut = Math.min(Math.max(0, 1000 - window.scrollY), 800) / 800.0;
     canvas.style.opacity = String(opmut);
@@ -266,7 +281,6 @@ var animate = function(time) {
     gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans2.array) 
     gl.drawElements(gl.LINE_STRIP, mindex.length, gl.UNSIGNED_SHORT, 0);
 
-
     gl.useProgram(starShader);
     gl.bindBuffer(gl.ARRAY_BUFFER, stars_vb);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, stars_ib);
@@ -278,5 +292,7 @@ var animate = function(time) {
     
     window.requestAnimationFrame(animate);
 }
+
+
 
 animate(0);
