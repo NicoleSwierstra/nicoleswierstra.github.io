@@ -11,6 +11,11 @@ canvas.style.zIndex = "-9999";
 canvas.style.opacity = "1";
 
 
+let breakpauses = [
+    0,
+    document.getElementById('firstBreak').getBoundingClientRect().top
+]
+
 function hexToRgb(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
@@ -35,8 +40,6 @@ let trans = glm.mat4(1.0);
 let trans2 = glm.mat4(1.0);
 let pos = glm.vec3(0.0, 0.0, -1.0);
 let suntrans = glm.translate(rot, glm.vec3(0.0, (20 * scaley), 0.0));
-
-console.log(pos);
 
 let sunverts = [0.0, 0.0, 0.0];
 let sunindex = [];
@@ -81,20 +84,59 @@ for (let y = 0; y < roady * 0.25; y++) {
 }
 
 for (let x = 0; x < mountainx; x++) {
-    let xo = roadverts[0].x - 1.5 * x,
-        x2 = -roadverts[0].x + 1.5 * x,
+    let xo = roadverts[0] - 1.5 * x,
+        x2 = -roadverts[0] + 1.5 * x,
         yo = (scaley * (4 * (roady * 0.25) / (roady - 1))) - (0.5 * scaley);
-    lmbuffer.push(xo, yo, lmbuffer[x].z);
-    rmbuffer.push(x2, yo, rmbuffer[x].z);
+    lmbuffer.push(xo, yo, lmbuffer[(x * 3) + 2]);
+    rmbuffer.push(x2, yo, rmbuffer[(x * 3) + 2]);
 }
 
-for (let y = 0; y < (roady * 0.25); y++) {
-    for (let x = 0; x < (mountainx - 1); x++) {
-        let s = (y * mountainx) + x;
-        let s1 = ((y + 1) * mountainx) + x;
-        mindex.push( s1, s + 1, s, s1, s + 1, s1 + 1 );
+let lmountain_vb_wnormals = [];
+let rmountain_vb_wnormals = [];
+
+for (let y = 0; y < (roady * 0.25) - 2; y++) {
+    for (let x = 0; x < mountainx; x++) {
+        let s = ((y * mountainx) + x) * 3;
+        let s1 = (((y + 1) * mountainx) + x) * 3;
+
+        let lv1 = glm.vec3(lmbuffer[s], lmbuffer[s + 1], lmbuffer[s + 2]),
+            lv2 = glm.vec3(lmbuffer[s + 3], lmbuffer[s + 4], lmbuffer[s + 5]),
+            lv3 = glm.vec3(lmbuffer[s1], lmbuffer[s1 + 1], lmbuffer[s1 + 2]),
+            lv4 = glm.vec3(lmbuffer[s1 + 3], lmbuffer[s1 + 4], lmbuffer[s1 + 5]),
+            rv1 = glm.vec3(rmbuffer[s], rmbuffer[s + 1], rmbuffer[s + 2]),
+            rv2 = glm.vec3(rmbuffer[s + 3], rmbuffer[s + 4], rmbuffer[s + 5]),
+            rv3 = glm.vec3(rmbuffer[s1], rmbuffer[s1 + 1], rmbuffer[s1 + 2]),
+            rv4 = glm.vec3(rmbuffer[s1 + 3], rmbuffer[s1 + 4], rmbuffer[s1 + 5]);
+
+        //v3, v2, v1,
+        //v3, v2, v4,
+
+        let ln1 = glm.cross(glm.normalize(lv2['-'](lv3)), glm.normalize(lv1['-'](lv3)));
+        let ln2 = glm.cross(glm.normalize(lv4['-'](lv3)), glm.normalize(lv2['-'](lv3)));
+        let rn1 = glm.cross(glm.normalize(rv1['-'](rv3)), glm.normalize(rv2['-'](rv3)));
+        let rn2 = glm.cross(glm.normalize(rv2['-'](rv3)), glm.normalize(rv4['-'](rv3)));
+
+        lmountain_vb_wnormals.push(
+            lv3.x, lv3.y, lv3.z, ln1.x, ln1.y, ln1.z,
+            lv2.x, lv2.y, lv2.z, ln1.x, ln1.y, ln1.z,
+            lv1.x, lv1.y, lv1.z, ln1.x, ln1.y, ln1.z,
+            lv3.x, lv3.y, lv3.z, ln2.x, ln2.y, ln2.z,
+            lv2.x, lv2.y, lv2.z, ln2.x, ln2.y, ln2.z,
+            lv4.x, lv4.y, lv4.z, ln2.x, ln2.y, ln2.z
+        );
+        rmountain_vb_wnormals.push(
+            rv3.x, rv3.y, rv3.z, rn1.x, rn1.y, rn1.z,
+            rv2.x, rv2.y, rv2.z, rn1.x, rn1.y, rn1.z,
+            rv1.x, rv1.y, rv1.z, rn1.x, rn1.y, rn1.z,
+            rv3.x, rv3.y, rv3.z, rn2.x, rn2.y, rn2.z,
+            rv2.x, rv2.y, rv2.z, rn2.x, rn2.y, rn2.z,
+            rv4.x, rv4.y, rv4.z, rn2.x, rn2.y, rn2.z,
+        );
     }
 }
+
+console.log(lmbuffer)
+console.log(lmountain_vb_wnormals);
 
 //assigns stars random positions
 for (let n = 0; n < 10000; n++) {
@@ -120,15 +162,11 @@ gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(roadindex), gl.STATIC_DRA
 
 var lmountain_vb = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, lmountain_vb);
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(lmbuffer), gl.STATIC_DRAW);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(lmountain_vb_wnormals), gl.STATIC_DRAW);
 
 var rmountain_vb = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, rmountain_vb);
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(rmbuffer), gl.STATIC_DRAW);
-
-var mountain_ib = gl.createBuffer();
-gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, mountain_ib);
-gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(mindex), gl.STATIC_DRAW);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(rmountain_vb_wnormals), gl.STATIC_DRAW);
 
 var stars_vb = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, stars_vb);
@@ -138,6 +176,31 @@ var stars_ib = gl.createBuffer();
 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, stars_ib);
 gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(starindex), gl.STATIC_DRAW);
 
+import { parseOBJFromFile } from "/src/modules/mesh.js"
+
+var vehicle_vb0 = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, vehicle_vb0);
+
+let vehicle_verticies0 = await parseOBJFromFile("res/models/carblack.obj");
+let v_vertdata = []
+for(let i = 0; i < vehicle_verticies0.position.length; i += 3){
+    v_vertdata.push(
+        vehicle_verticies0.position[i],
+        vehicle_verticies0.position[i + 1],
+        vehicle_verticies0.position[i + 2],
+        vehicle_verticies0.normal[i],
+        vehicle_verticies0.normal[i + 1],
+        vehicle_verticies0.normal[i + 2],
+    )
+}
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vehicle_verticies0.position), gl.STATIC_DRAW)
+
+var vehicle_vb1 = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, vehicle_vb1)
+
+let vehicle_verticies1 = await parseOBJFromFile("res/models/carblue.obj");
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vehicle_verticies1.position), gl.STATIC_DRAW)
+
 import { getShaderFrom, getShaderFromFile, setshadercontext } from "/src/modules/shader.js";
 setshadercontext(gl);
 
@@ -146,17 +209,24 @@ var roadShader = await getShaderFromFile("src/video-game-background/surface.shad
 var mountains = await getShaderFromFile("src/video-game-background/mountains.shader");
 var lineShader = await getShaderFromFile("src/video-game-background/lines.shader");
 var starShader = await getShaderFromFile("src/video-game-background/stars.shader");
+var carShader = await getShaderFromFile("src/video-game-background/carbody.shader")
 
 var sun_vertpointer = gl.getAttribLocation(sunShader, "position");
 var surf_vertpointer = gl.getAttribLocation(roadShader, "position");
 var line_vertpointer = gl.getAttribLocation(lineShader, "position");
 var mnt_vertpointer = gl.getAttribLocation(mountains, "position");
-var star_vertpointer = gl.getAttribLocation(starShader, "position")
+var mnt_normpointer = gl.getAttribLocation(mountains, "normal");
+var star_vertpointer = gl.getAttribLocation(starShader, "position");
+var car_vertpointer0 = gl.getAttribLocation(carShader, "position");
+var car_vertpointer1 = gl.getAttribLocation(carShader, "normal");
 gl.enableVertexAttribArray(sun_vertpointer)
 gl.enableVertexAttribArray(surf_vertpointer)
 gl.enableVertexAttribArray(line_vertpointer)
 gl.enableVertexAttribArray(mnt_vertpointer)
+gl.enableVertexAttribArray(mnt_normpointer)
 gl.enableVertexAttribArray(star_vertpointer)
+gl.enableVertexAttribArray(car_vertpointer0)
+gl.enableVertexAttribArray(car_vertpointer1)
 
 // Position
 
@@ -177,6 +247,9 @@ gl.uniformMatrix4fv(gl.getUniformLocation(starShader, "u_MVP"), false, proj_matr
 
 gl.useProgram(mountains)
 gl.uniformMatrix4fv(gl.getUniformLocation(mountains,  "u_MVP"), false, proj_matrix.array);
+
+gl.useProgram(carShader)
+gl.uniformMatrix4fv(gl.getUniformLocation(carShader,  "u_MVP"), false, proj_matrix.array)
 
 /*================= Drawing ===========================*/
 var time_old = 0;
@@ -200,99 +273,139 @@ function logKey(e) {
     mousey = 2.0 * (e.clientY / canvas.height - 0.5);
 }
 
+function distFromNArray(p, arr){
+    let closestdist = Infinity;
+    let ind = -1;
+    arr.forEach((element, index) => {
+        let d1 = element - p 
+        if(Math.abs(d1) < Math.abs(closestdist)) {
+            closestdist = d1
+            ind = index
+        }
+    });
+    return [Math.abs(closestdist), ind, closestdist/Math.abs(closestdist)];
+}
+breakpauses = [
+    0,
+    document.getElementById('firstBreak').getBoundingClientRect().top + window.scrollY
+]
 var animate = function(time) { 
     let dt = (time - time_old) / 1000.0;
     time_old = time
     gl.viewport(0.0, 0.0, canvas.width, canvas.height);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    let scmut = Math.min(Math.max(0, 600 - window.scrollY), 300) / 300.0;
-    rot = glm.rotate(glm.mat4(1.), glm.radians((30*(1-scmut)) - 70.), glm.vec3(1.0, 0.0, 0.0));
-    rot = glm.rotate(rot, glm.radians(mousex * 10), glm.vec3(0.0, 0.0, 1.0))
-    rot = glm.rotate(rot, glm.radians(mousey * 10), glm.vec3(1.0, 0.0, 0.0))
-    pos = glm.vec3(0, (pos.y - (scrollspeed * dt * scmut)), -1.5);
+    let [relscrolly, index, relscrolldir] = distFromNArray(window.scrollY, breakpauses); 
+    switch(index) {
+        case 2:
+        case 0: {
+            let scmut = Math.min(Math.max(0, 600 - relscrolly), 300) / 300.0;
+            rot = glm.rotate(glm.mat4(1.), glm.radians((30*(1-scmut)) - 70.), glm.vec3(1.0, 0.0, 0.0));
+            rot = glm.rotate(rot, glm.radians(mousex * 10), glm.vec3(0.0, 0.0, 1.0))
+            rot = glm.rotate(rot, glm.radians(mousey * 10), glm.vec3(1.0, 0.0, 0.0))
+            pos = glm.vec3(0, (pos.y - (scrollspeed * dt * scmut)), -1.5);
 
-    console.log(mousex, mousey)
+            let opmut = Math.min(Math.max(0, 1000 - relscrolly), 800) / 800.0;
+            canvas.style.opacity = String(opmut);
 
-    let opmut = Math.min(Math.max(0, 1000 - window.scrollY), 800) / 800.0;
-    canvas.style.opacity = String(opmut);
+            if (pos.y < -30) {pos.y += scaley}
 
-    if (pos.y < -30) {pos.y += scaley}
+            suntrans = glm.translate(rot, glm.vec3(0.0, (15 * scaley), 0.0));
+            trans = glm.translate(rot, pos);
+            trans2 = glm.translate(rot, glm.vec3(pos.x, pos.y + scaley, pos.z));
 
-    suntrans = glm.translate(rot, glm.vec3(0.0, (15 * scaley), 0.0));
-    trans = glm.translate(rot, pos);
-    trans2 = glm.translate(rot, glm.vec3(pos.x, pos.y + scaley, pos.z));
- 
-    gl.useProgram(sunShader); 
-    gl.bindBuffer(gl.ARRAY_BUFFER, sun_vb);
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sun_ib);
-    gl.uniformMatrix4fv(gl.getUniformLocation(sunShader, "trans"), false, suntrans.array);
-    gl.vertexAttribPointer(sun_vertpointer, 3, gl.FLOAT, false, 0, 0 );
-    gl.drawElements(gl.TRIANGLES, sunindex.length, gl.UNSIGNED_SHORT, 0);
- 
-    gl.useProgram(roadShader);
-    gl.bindBuffer(gl.ARRAY_BUFFER, road_vb);
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, road_ib);
-    gl.vertexAttribPointer(surf_vertpointer, 3, gl.FLOAT, false, 0, 0 );
-    gl.uniformMatrix4fv(gl.getUniformLocation(roadShader, "trans"), false, trans.array)
-    gl.drawElements(gl.TRIANGLES, roadindex.length, gl.UNSIGNED_SHORT, 0);
-    gl.uniformMatrix4fv(gl.getUniformLocation(roadShader, "trans"), false, trans2.array)
-    gl.drawElements(gl.TRIANGLES, roadindex.length, gl.UNSIGNED_SHORT, 0);
+            let mountvertnum = lmountain_vb_wnormals.length / 6
+        
+            gl.useProgram(sunShader); 
+            gl.bindBuffer(gl.ARRAY_BUFFER, sun_vb);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sun_ib);
+            gl.uniformMatrix4fv(gl.getUniformLocation(sunShader, "trans"), false, suntrans.array);
+            gl.vertexAttribPointer(sun_vertpointer, 3, gl.FLOAT, false, 0, 0 );
+            gl.drawElements(gl.TRIANGLES, sunindex.length, gl.UNSIGNED_SHORT, 0);
+        
+            gl.useProgram(roadShader);
+            gl.bindBuffer(gl.ARRAY_BUFFER, road_vb);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, road_ib);
+            gl.vertexAttribPointer(surf_vertpointer, 3, gl.FLOAT, false, 0, 0 );
+            gl.uniformMatrix4fv(gl.getUniformLocation(roadShader, "trans"), false, trans.array)
+            gl.drawElements(gl.TRIANGLES, roadindex.length, gl.UNSIGNED_SHORT, 0);
+            gl.uniformMatrix4fv(gl.getUniformLocation(roadShader, "trans"), false, trans2.array)
+            gl.drawElements(gl.TRIANGLES, roadindex.length, gl.UNSIGNED_SHORT, 0);
 
-    gl.useProgram(mountains)
-    gl.bindBuffer(gl.ARRAY_BUFFER, lmountain_vb);
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, mountain_ib);
-    gl.vertexAttribPointer(line_vertpointer, 3, gl.FLOAT, false, 0, 0 ); 
-    gl.drawElements(gl.TRIANGLES, mindex.length, gl.UNSIGNED_SHORT, 0);
-    gl.uniformMatrix4fv(gl.getUniformLocation(mountains, "trans"), false, trans.array) 
-    gl.drawElements(gl.TRIANGLES, mindex.length, gl.UNSIGNED_SHORT, 0);
-    gl.uniformMatrix4fv(gl.getUniformLocation(mountains, "trans"), false, trans2.array) 
-    
-    gl.bindBuffer(gl.ARRAY_BUFFER, rmountain_vb);
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, mountain_ib);
-    gl.vertexAttribPointer(line_vertpointer, 3, gl.FLOAT, false, 0, 0 );
-    gl.uniformMatrix4fv(gl.getUniformLocation(mountains, "trans"), false, trans.array) 
-    gl.drawElements(gl.TRIANGLES, mindex.length, gl.UNSIGNED_SHORT, 0)
-    gl.uniformMatrix4fv(gl.getUniformLocation(mountains, "trans"), false, trans2.array) 
-    gl.drawElements(gl.TRIANGLES, mindex.length, gl.UNSIGNED_SHORT, 0);
+            gl.useProgram(mountains)
+            gl.bindBuffer(gl.ARRAY_BUFFER, lmountain_vb);
+            gl.vertexAttribPointer(mnt_vertpointer, 3, gl.FLOAT, false, 24,  0 ); 
+            gl.vertexAttribPointer(mnt_normpointer, 3, gl.FLOAT, false, 24, 12 );
+            gl.uniformMatrix4fv(gl.getUniformLocation(mountains, "trans"), false, trans.array) 
+            gl.drawArrays(gl.TRIANGLES, 0, mountvertnum)
+            gl.uniformMatrix4fv(gl.getUniformLocation(mountains, "trans"), false, trans2.array) 
+            gl.drawArrays(gl.TRIANGLES, 0, mountvertnum)
+            
+            gl.bindBuffer(gl.ARRAY_BUFFER, rmountain_vb);
+            gl.vertexAttribPointer(mnt_vertpointer, 3, gl.FLOAT, false, 24,  0 ); 
+            gl.vertexAttribPointer(mnt_normpointer, 3, gl.FLOAT, false, 24, 12 );
+            gl.uniformMatrix4fv(gl.getUniformLocation(mountains, "trans"), false, trans.array) 
+            gl.drawArrays(gl.TRIANGLES, 0, mountvertnum)
+            gl.uniformMatrix4fv(gl.getUniformLocation(mountains, "trans"), false, trans2.array) 
+            gl.drawArrays(gl.TRIANGLES, 0, mountvertnum)
 
-    gl.useProgram(lineShader);
-    gl.bindBuffer(gl.ARRAY_BUFFER, road_vb);
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, road_ib);
-    gl.vertexAttribPointer(line_vertpointer, 3, gl.FLOAT, false, 0, 0 );
-    gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans.array)
-    gl.drawElements(gl.LINES, roadindex.length, gl.UNSIGNED_SHORT, 0);
-    gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans2.array)
-    gl.drawElements(gl.LINES, roadindex.length, gl.UNSIGNED_SHORT, 0);
+            gl.useProgram(lineShader);
+            gl.bindBuffer(gl.ARRAY_BUFFER, road_vb);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, road_ib);
+            gl.vertexAttribPointer(line_vertpointer, 3, gl.FLOAT, false, 0, 0 );
+            gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans.array)
+            gl.drawElements(gl.LINES, roadindex.length, gl.UNSIGNED_SHORT, 0);
+            gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans2.array)
+            gl.drawElements(gl.LINES, roadindex.length, gl.UNSIGNED_SHORT, 0);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, lmountain_vb);
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, mountain_ib);
-    gl.vertexAttribPointer(line_vertpointer, 3, gl.FLOAT, false, 0, 0 );  
-    gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans.array);
-    gl.drawElements(gl.LINE_STRIP, mindex.length, gl.UNSIGNED_SHORT, 0);
-    gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans2.array); 
-    gl.drawElements(gl.LINE_STRIP, mindex.length, gl.UNSIGNED_SHORT, 0);
-    
-    gl.bindBuffer(gl.ARRAY_BUFFER, rmountain_vb);
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, mountain_ib);
-    gl.vertexAttribPointer(line_vertpointer, 3, gl.FLOAT, false, 0, 0 );
-    gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans.array) 
-    gl.drawElements(gl.LINE_STRIP, mindex.length, gl.UNSIGNED_SHORT, 0)
-    gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans2.array) 
-    gl.drawElements(gl.LINE_STRIP, mindex.length, gl.UNSIGNED_SHORT, 0);
+            gl.bindBuffer(gl.ARRAY_BUFFER, lmountain_vb);
+            gl.vertexAttribPointer(line_vertpointer, 3, gl.FLOAT, false, 24, 0 ); 
+            gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans.array);
+            gl.drawArrays(gl.LINE_STRIP, 0, mountvertnum)
+            gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans2.array); 
+            gl.drawArrays(gl.LINE_STRIP, 0, mountvertnum)
+            
+            gl.bindBuffer(gl.ARRAY_BUFFER, rmountain_vb);
+            gl.vertexAttribPointer(line_vertpointer, 3, gl.FLOAT, false, 24, 0 );
+            gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans.array) 
+            gl.drawArrays(gl.LINE_STRIP, 0, mountvertnum);
+            gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, trans2.array) 
+            gl.drawArrays(gl.LINE_STRIP, 0, mountvertnum);
 
-    gl.useProgram(starShader);
-    gl.bindBuffer(gl.ARRAY_BUFFER, stars_vb);
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, stars_ib);
-    gl.vertexAttribPointer(surf_vertpointer, 3, gl.FLOAT, false, 0, 0 );
-    gl.uniformMatrix4fv(gl.getUniformLocation(starShader, "trans"), false, trans.array)
-    gl.drawElements(gl.POINTS, starindex.length, gl.UNSIGNED_SHORT, 0);
-    gl.uniformMatrix4fv(gl.getUniformLocation(starShader, "trans"), false, trans2.array)
-    gl.drawElements(gl.POINTS, starindex.length, gl.UNSIGNED_SHORT, 0);
-    
+            gl.useProgram(starShader);
+            gl.bindBuffer(gl.ARRAY_BUFFER, stars_vb);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, stars_ib);
+            gl.vertexAttribPointer(surf_vertpointer, 3, gl.FLOAT, false, 0, 0 );
+            gl.uniformMatrix4fv(gl.getUniformLocation(starShader, "trans"), false, trans.array)
+            gl.drawElements(gl.POINTS, starindex.length, gl.UNSIGNED_SHORT, 0);
+            gl.uniformMatrix4fv(gl.getUniformLocation(starShader, "trans"), false, trans2.array)
+            gl.drawElements(gl.POINTS, starindex.length, gl.UNSIGNED_SHORT, 0);
+        }; break;
+        case 1:{
+            let opmut = Math.min(Math.max(0, 1000 - Math.abs(relscrolly)), 800) / 800.0;
+            canvas.style.opacity = String(opmut);
+
+
+            let ntrans = glm.translate(glm.mat4(1.0), glm.vec3(0, 0, -6))
+            let nrot = glm.rotate(ntrans, glm.radians(30), glm.vec3(1.0, 0.0, 0.0))
+            nrot = glm.rotate(nrot, glm.radians(relscrolly * 0.5 * relscrolldir + 90), glm.vec3(0.0, 1.0, 0.0))
+
+            gl.useProgram(carShader)
+            gl.bindBuffer(gl.ARRAY_BUFFER, vehicle_vb0)
+            gl.vertexAttribPointer(car_vertpointer0, 3, gl.FLOAT, false, 0, 0 );
+            gl.vertexAttribPointer(car_vertpointer1, 3, gl.FLOAT, false, 0, 0 );
+            gl.uniformMatrix4fv(gl.getUniformLocation(carShader, "trans"), false, nrot.array)
+            gl.drawArrays(gl.TRIANGLES, 0, vehicle_verticies0.position.length / 3)
+
+            gl.useProgram(lineShader)
+            gl.bindBuffer(gl.ARRAY_BUFFER, vehicle_vb1)
+            gl.vertexAttribPointer(line_vertpointer, 3, gl.FLOAT, false, 0, 0 );
+            gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, nrot.array)
+            gl.drawArrays(gl.TRIANGLES, 0, vehicle_verticies1.position.length / 3)
+        } break;
+    }
+
     window.requestAnimationFrame(animate);
 }
-
-
 
 animate(0);

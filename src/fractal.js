@@ -21,7 +21,7 @@ function hexToRgb(hex) {
 
 var bgcol = hexToRgb(getComputedStyle(canvas).getPropertyValue('--d_dark-grey'));
 
-import { getShaderFrom, getShaderFromFile, setshadercontext } from "/src/modules/shader.js";
+import { getShaderFromFile, setshadercontext } from "/src/modules/shader.js";
 setshadercontext(gl);
 
 var verts = [
@@ -67,7 +67,7 @@ let colors = [
     new colorentry(c3.r, c3.g, c3.b, 0.2),
     new colorentry(c2.r, c2.g, c2.b, 0.6),
     new colorentry(c1.r, c1.g, c1.b, 0.8),
-    new colorentry(1.0, 0.5, 1.0, 1.0),
+    new colorentry(0.8, 0.6, 1.0, 1.0),
 ]
 let __i = 0
 for (var i = 0; i < colors.length; i++) {
@@ -81,7 +81,7 @@ gl.enableVertexAttribArray(mbpos)
 
 /*================= Drawing ===========================*/
 
-gl.uniform4f(gl.getUniformLocation(mb2d, "inside_color"), bgcol.r, bgcol.g, bgcol.b, 1.0);
+gl.uniform4f(gl.getUniformLocation(mb2d, "inside_color"), c2.r, c2.g, c2.b, 1.0);
 
 gl.clearColor(bgcol.r, bgcol.g, bgcol.b, 1);
 gl.clearDepth(1.0);
@@ -104,7 +104,7 @@ var animate = function(time) {
 
     let opmut = Math.min(Math.max(0, 500 - window.scrollY), 350) / 350.0;
     canvas.style.opacity = String(opmut);
-    let mx = 0 * (1-opmut) + opmut * (-mousex * 2.0), my = (mousey * 2.0) * opmut + 0 * (1-opmut)
+    let mx = 0 * (1-opmut) + opmut * (-mousex * 1.5), my = (mousey * 1.5) * opmut + 0 * (1-opmut)
 
     gl.useProgram(mb2d);
     gl.bindBuffer(gl.ARRAY_BUFFER, nbo) 

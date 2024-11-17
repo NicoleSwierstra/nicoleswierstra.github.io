@@ -29,7 +29,7 @@ struct gradientPos {
 
 uniform gradientPos gradient[50];
 uniform int gradientNum;
-vec4 inside_color;
+uniform vec4 inside_color;
 in vec2 coords;
 
 vec2 step_mandlebrot(vec2 v, float x, float y) {
@@ -38,17 +38,19 @@ vec2 step_mandlebrot(vec2 v, float x, float y) {
 
 float iterator(float x, float y) {
 	vec2 v = vec2(x, y);
+	float iv = 0.0;
 	int iteration = 0;
-	float xtemp = 0.0;
 	
 	while ((v.x * v.x + v.y * v.y) < 4.0 && iteration < iterations)
 	{
+		vec2 ov = v;
 		v = step_mandlebrot(v, juliaCoords.x, juliaCoords.y);
+		iv += length(ov - v);
 		iteration++;
 	}
 
 	if (iteration == iterations)
-		return -1.0;
+		return (abs(iv) / (float(iteration) * 2.0));
 	
 	float log_zn = log(float(v.x * v.x + v.y * v.y)) / 2.0;
 	float nu = log(log_zn / log(2.0)) / log(2.0);

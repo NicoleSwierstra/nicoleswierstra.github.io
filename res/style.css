@@ -21,6 +21,13 @@
     overflow: hidden;
     background-color: var(--d_dark-grey);
     padding: 20px 10px;
+    transition: position 0.2s ease-in-out;
+    position: sticky;
+    top: 0px;
+}
+
+.header a:hover{
+    color: var(--d_pale-blue)
 }
 
 .header a {
@@ -32,9 +39,7 @@
     font-size: 30pt;
     line-height: 25px;
     border-radius: 4px;
-    transition: top 0.2s ease-in-out;
-    position: sticky;
-    top: 0px;
+
 }
 
 .header a.logo {
@@ -105,4 +110,40 @@ figcaption{
 .full-width {
     width: 100%;
     display: flex;
+}
+
+.step {
+	animation-name: ripple;
+	animation-duration: 2s;
+	animation-delay: 5s;
+	animation-iteration-count: infinite;   
+	animation-timing-function: cubic-bezier(0.65, 0, 0.34, 1);
+    z-index: -1;
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.stepstatic {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+@keyframes ripple {
+    0%{
+		opacity: 0;
+		transform: scale3d(0.75, 0.75, 1);
+    }
+
+    50%{
+        opacity: 0;
+    }
+
+    51% {
+		opacity: 0.5;
+	}
+
+	100% {
+		opacity: 0;
+		transform: scale3d(1.5, 1.5, 1);
+	}
 }
