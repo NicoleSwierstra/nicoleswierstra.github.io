@@ -27,6 +27,7 @@ out vec4 color;
 void main() {
 	vec3 norm = normalize(Normal);
 	vec3 lightDir = normalize(vec3(0.0f, 10.0f, 1.0f));
+	vec3 reflectDir = reflect(lightDir, norm);
 	vec3 col = vec3(0.2f, 0.2f, 0.2f) * (max(dot(norm, lightDir), 0.0) + 0.25f);
 	color = vec4(col, 1.0f);
 }

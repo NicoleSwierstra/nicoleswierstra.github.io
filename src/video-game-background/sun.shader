@@ -6,7 +6,7 @@ uniform mat4 trans;
 varying float l;
 
 void main(void) { 
-    l = position.z / 160.0; 
+    l = (position.z / 150.0) + 1.0; 
     gl_Position = u_MVP * trans * vec4(position, 1.0); 
 }
 
@@ -15,5 +15,5 @@ precision mediump float;
 varying float l;
 
 void main(void) {
-    gl_FragColor = mix(vec4(1.0, 0.0, 0.0, 1.0), vec4(1.0, 1.0, 0.0, 1.0), l);
+    gl_FragColor = mix( vec4(0.6, 0.2, 1.0, 1.0), vec4(1.0, 0.4, 0.6, 1.0), l);
 }

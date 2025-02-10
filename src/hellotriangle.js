@@ -13,7 +13,8 @@ canvas.style.opacity = "1";
 
 let breakpauses = [
     0,
-    document.getElementById('firstBreak').getBoundingClientRect().top
+    document.getElementById('firstBreak').getBoundingClientRect().top,
+    document.getElementById('secondBreak').getBoundingClientRect().top
 ]
 
 function hexToRgb(hex) {
@@ -28,7 +29,7 @@ function hexToRgb(hex) {
 const scrollspeed = 1.2;
 const roadx = 11;
 const roady = 200;
-const scalex = 2.5;
+const scalex = 3;
 const scaley = 60.0;
 const mountainx = 20;
 const sunres = 64;
@@ -39,7 +40,7 @@ let rot = glm.rotate(glm.mat4(1.), glm.radians(-65.), glm.vec3(1.0, 0.0, 0.0));
 let trans = glm.mat4(1.0);
 let trans2 = glm.mat4(1.0);
 let pos = glm.vec3(0.0, 0.0, -1.0);
-let suntrans = glm.translate(rot, glm.vec3(0.0, (20 * scaley), 0.0));
+let suntrans = glm.translate(rot, glm.vec3(0.0, (20 * scaley), 10.0));
 
 let sunverts = [0.0, 0.0, 0.0];
 let sunindex = [];
@@ -86,7 +87,7 @@ for (let y = 0; y < roady * 0.25; y++) {
 for (let x = 0; x < mountainx; x++) {
     let xo = roadverts[0] - 1.5 * x,
         x2 = -roadverts[0] + 1.5 * x,
-        yo = (scaley * (4 * (roady * 0.25) / (roady - 1))) - (0.5 * scaley);
+        yo = (scaley * (4 * roady / (roady - 1))) - (0.5 * scaley);
     lmbuffer.push(xo, yo, lmbuffer[(x * 3) + 2]);
     rmbuffer.push(x2, yo, rmbuffer[(x * 3) + 2]);
 }
@@ -94,7 +95,7 @@ for (let x = 0; x < mountainx; x++) {
 let lmountain_vb_wnormals = [];
 let rmountain_vb_wnormals = [];
 
-for (let y = 0; y < (roady * 0.25) - 2; y++) {
+for (let y = 0; y < (roady * 0.25) - 1; y++) {
     for (let x = 0; x < mountainx; x++) {
         let s = ((y * mountainx) + x) * 3;
         let s1 = (((y + 1) * mountainx) + x) * 3;
@@ -287,8 +288,13 @@ function distFromNArray(p, arr){
 }
 breakpauses = [
     0,
-    document.getElementById('firstBreak').getBoundingClientRect().top + window.scrollY
+    document.getElementById('firstBreak').getBoundingClientRect().top + window.scrollY,
+    document.getElementById('secondBreak').getBoundingClientRect().top + window.scrollY
 ]
+
+
+let vehicle_pos_x = 0
+
 var animate = function(time) { 
     let dt = (time - time_old) / 1000.0;
     time_old = time
@@ -296,21 +302,23 @@ var animate = function(time) {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     let [relscrolly, index, relscrolldir] = distFromNArray(window.scrollY, breakpauses); 
+    console.log(relscrolly)
     switch(index) {
         case 2:
         case 0: {
             let scmut = Math.min(Math.max(0, 600 - relscrolly), 300) / 300.0;
             rot = glm.rotate(glm.mat4(1.), glm.radians((30*(1-scmut)) - 70.), glm.vec3(1.0, 0.0, 0.0));
-            rot = glm.rotate(rot, glm.radians(mousex * 10), glm.vec3(0.0, 0.0, 1.0))
-            rot = glm.rotate(rot, glm.radians(mousey * 10), glm.vec3(1.0, 0.0, 0.0))
-            pos = glm.vec3(0, (pos.y - (scrollspeed * dt * scmut)), -1.5);
+            rot = glm.rotate(rot, glm.radians(mousex * 5), glm.vec3(0.0, 0.0, 1.0))
+            rot = glm.rotate(rot, glm.radians(mousey * 5), glm.vec3(1.0, 0.0, 0.0))
+            let sscrollspeed = index == 2 ? scrollspeed + ((1 - Math.min(Math.max(mousey, -0.6), 0.6)) * 5) : scrollspeed
+            pos = glm.vec3(0, (pos.y - (sscrollspeed * dt * scmut)), -1.5);
 
             let opmut = Math.min(Math.max(0, 1000 - relscrolly), 800) / 800.0;
             canvas.style.opacity = String(opmut);
 
             if (pos.y < -30) {pos.y += scaley}
 
-            suntrans = glm.translate(rot, glm.vec3(0.0, (15 * scaley), 0.0));
+            suntrans = glm.translate(rot, glm.vec3(0.0, (15 * scaley), 30.0));
             trans = glm.translate(rot, pos);
             trans2 = glm.translate(rot, glm.vec3(pos.x, pos.y + scaley, pos.z));
 
@@ -380,11 +388,35 @@ var animate = function(time) {
             gl.drawElements(gl.POINTS, starindex.length, gl.UNSIGNED_SHORT, 0);
             gl.uniformMatrix4fv(gl.getUniformLocation(starShader, "trans"), false, trans2.array)
             gl.drawElements(gl.POINTS, starindex.length, gl.UNSIGNED_SHORT, 0);
+
+            if (index == 2){
+                let nrot = glm.rotate(rot, glm.radians(90), glm.vec3(1.0, 0.0, 0.0));
+                let _t = 1.0 * (1 - (sscrollspeed / 10)) +  0.95 * (sscrollspeed / 10)
+                vehicle_pos_x = vehicle_pos_x * _t + (Math.max(Math.min(mousex, 0.32), -0.32) * 2 * (1 -_t))
+                console.log(sscrollspeed, mousey)
+                let dvpx = vehicle_pos_x - (Math.max(Math.min(mousex, 0.32), -0.32) * 2)
+                let ntrans = glm.translate(nrot, glm.vec3(vehicle_pos_x, -1, -2 + mousey / 2))
+                let nscale = glm.scale(ntrans, glm.vec3(0.15,0.15,0.15))
+                ntrans = glm.rotate(nscale, glm.radians(180), glm.vec3(0.0, 1.0, 0.0));
+                ntrans = glm.rotate(ntrans, glm.radians(dvpx * 40), glm.vec3(0.0, 1.0, 0.0));
+
+                gl.useProgram(carShader)
+                gl.bindBuffer(gl.ARRAY_BUFFER, vehicle_vb0)
+                gl.vertexAttribPointer(car_vertpointer0, 3, gl.FLOAT, false, 0, 0 );
+                gl.vertexAttribPointer(car_vertpointer1, 3, gl.FLOAT, false, 0, 0 );
+                gl.uniformMatrix4fv(gl.getUniformLocation(carShader, "trans"), false, ntrans.array)
+                gl.drawArrays(gl.TRIANGLES, 0, vehicle_verticies0.position.length / 3)
+                
+                gl.useProgram(lineShader)
+                gl.bindBuffer(gl.ARRAY_BUFFER, vehicle_vb1)
+                gl.vertexAttribPointer(line_vertpointer, 3, gl.FLOAT, false, 0, 0 );
+                gl.uniformMatrix4fv(gl.getUniformLocation(lineShader, "trans"), false, ntrans.array)
+                gl.drawArrays(gl.TRIANGLES, 0, vehicle_verticies1.position.length / 3)
+            }
         }; break;
         case 1:{
             let opmut = Math.min(Math.max(0, 1000 - Math.abs(relscrolly)), 800) / 800.0;
             canvas.style.opacity = String(opmut);
-
 
             let ntrans = glm.translate(glm.mat4(1.0), glm.vec3(0, 0, -6))
             let nrot = glm.rotate(ntrans, glm.radians(30), glm.vec3(1.0, 0.0, 0.0))

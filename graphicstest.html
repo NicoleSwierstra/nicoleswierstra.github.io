@@ -18,7 +18,7 @@
     <script type="module" src="src/hellotriangle.js"></script>
     <canvas width = 600px height = 480px id = "my_Canvas"></canvas>
     <body>
-        
+
         <div style="margin-bottom: 55%;">
             <br>
         </div>
@@ -80,17 +80,32 @@
                         The realtime control algorithm runs once every 5ms. The entire thing is written very baremetal, with a custom RTOS sitting on top of bare CMSIS register bindings
                         <br><br>
                         In the future, I hope to move the entire program over to chibiOS, but the performance hit for such a gutless chip may be too great
+                        <br><br>
+                        The code can be found <a href="https://github.com/wwuracingGH/v66-vcu">here</a>. 
                     </div>
                 </div>
-                <div class="full-width", style="display: block;">
-                    <div class="left-paragraph">
-                        The code I wrote was validated over several test days, and ended up shipping with the car to michigan.
-                        While I couldn't personally attend competition, and the car didn't pass tech, the code ended up working without a hitch
+                <div class="full-width"> 
+                    <div class="left-paragraph"> 
+                        Over about an afternoon, I also wrote a tool that communicated over the can bus and allowed for real time tuning of the vehicle without completely taking the vcu out of the car and reprogramming it.
+                        This was done by using the CAN bus and a custom flash memory setup.
+                        <br><br>
+                        The code for this tool can be found here,
+                        <a href="https://github.com/wwuracingGH/v66-vcu">here</a>, but it's a bit messier 
                     </div>
+                    <figure style="width: 40%; margin-right: 5%; float:right;">
+                        <video src="res/V66-VCU-Telemetry.MOV" style="width: 100%; display: block;" autoplay loop muted></video>
+                        <figcaption>Real time sensor data from the vcu</figcaption>
+                    </figure>
+                </div>
+                <div class="full-width">
                     <figure style="width: 40%; margin-left: 5%; float:left; display: inline;">
                         <video src="res/v66TestDay.MOV" style="width: 100%; display: block;" autoplay loop muted></video>
                         <figcaption>The car during a test day</figcaption>
                     </figure>
+                    <div class="right-paragraph">
+                        The code I wrote was validated over several test days, and ended up shipping with the car to michigan.
+                        While I couldn't personally attend competition, and the car didn't pass tech for unrelated reasons, the code ended up working without a hitch
+                    </div>
                 </div>
 
             </div>
@@ -142,7 +157,7 @@
                         <figcaption>6th version of the dash, with quarter for scale</figcaption> 
                     </figure>
                     <figure style="width: 55%; margin-right: 5%; float:right; display: block;">
-                        <img src="res/DashFrontDesign.png" style="width: 100%;">
+                        <img src="res/V66-DashFrontDesign.png" style="width: 100%;">
                         <figcaption>Dash enclosure design</figcaption> 
                     </figure>
                 </div>
@@ -158,44 +173,88 @@
                 </figure>
                 <div class="full-paragraph">
                     The V67 VCU is a work in progress ASMP board with a linux system sitting on top of a real time subsystem. Based on the V66 dash, it is still a work in progress.
-
                 </div>
             </div>
 
-            <div style="width:100%; height: fit-content;">
+            <div style="width: 100%;">
+                <h2 class="full-paragraph">
+                    Laptime Simulator and Digital Double
+                </h2>
+                <figure style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+                    <img src="res/V66-LAPTIMESIM.png" style="width: 100%; display: block;">
+                    <figcaption>A full run of the 2024 fsae electric track in the simulator. Black dots represent brake points and the color represents speed.</figcaption>
+                </figure>
+                <div class="full-paragraph">
+                    In order to optimize the design of the FSAE car, we as a team need to be able to simulate the way that the car works on track.
+                    To do this, we are writing a discrete model of the car in order to understand it better.
+                    <br><br>
+                    This descrete mathematical model of the car can then be simulated to figure out how well it performs around a track, using a lagrange cost optimization function.
+                    This is still a work in progress as we continue to validate it with viking 66, hopefully to the point where it becomes useful for 67.
+                </div>
+            </div>
+
+            <div style="width: 100%;">
+                <h2 class="full-paragraph">
+                    V66 BMS restoration
+                </h2>
+
+                <div class="full-paragraph">
+                    Our FSAE team has for the last few years designed our own battery management system for the car.
+                    It had two parts, the segment boards that actually sat on top of the batteries, and the main board, which communicated with all of those segments.
+                    For some reason, after coming home from competition and sitting in a closet somewhere, the segments started killing stacks.
+                    We needed a new solution for the segments to prevent this from happening again, which I was an integral part of.
+                    <br><br>
+                </div>
+
+                <div class="full-width">
+                    
+                    <figure style="width: 40%; margin-left: 5%; float:left; display: block;">
+                        <img src="res/V66-BMS-rerouted.png" style="width:100%; display: inline;">
+                        <figcaption>The rerouted bms board</figcaption> 
+                    </figure>
+
+                    <div class="right-paragraph">
+                        We weren't entirely sure what the issue was, so we erred on the side of caution for the whole battery.
+                        I rerouted the BMS segment board with much wider tolerances between traces and some added components that we as a team figured could help solve an issue with the BMS chips we were using.
+                    </div>
+                </div>
+
+                <div class="full-paragraph">
+                    We also weren't left with the working codebase for the BMS segments or the BMS topbox, which meant they had to be rewritten.
+                    I worked on rewriting the segment code and rewrote a bunch of drivers for the top box, and helped newer formula members to write some of the rest of the code.
+                    <br><br>
+
+                    We finally got our first segments reporting things onto the CAN bus after about 2 weeks of work, and are now working on getting the rest of the battery in working order.
+                    <br><br>
+
+                    The code for the segments can be found <a href="https://github.com/wwuracingGH/v66-bms-seg-2">here</a> and <a href="https://github.com/wwuracingGH/V66-BMS-TB-2">here</a>.   
+                </div>
+            </div>
+
+            <div style="width:100%;">
                 <h2 class="full-paragraph">
                     Minor Projects
                 </h2>
-                <div style="display: block;">
+                <div class="full-paragraph">
                     <div class="left-paragraph">
                         <b>Enclosure Design</b><br><br>
                         Some circuit boards and components needed custom enclosures that I designed, 3d printed, and post-processed for waterproofing.
                     </div>
                     <figure style="width: 40%; margin-right: 5%; float: right;">
-                        <img src="" style="width: 100%; display: block;">
+                        <img src="res/v66-bspd-enclosure.png" style="width: 100%; display: block;">
                         <figcaption>V66 bspd enclosure</figcaption>
                     </figure>
                 </div>
-                <div style="display: block;">
-                    <div class="right-paragraph">
+                <div class="full-paragraph">
+                    <div class="left-paragraph">
                         <b>Wiring Harness</b><br><br>
                         I helped design and troubleshoot the wiring harness for v66
+                        <br><br><br><br><br><br>
                     </div>
-                    <figure style="width: 40%; margin-left: 5%; float:left;">
-                        <img src="" style="width: 100%; display: block;">
-                        <figcaption>Wiring Harness</figcaption>
-                    </figure>
                 </div>
-                <div style="display: block;">
-                    <div class="left-paragraph">
-                        <b>board assembly</b><br><br>
-                        I helped assemble some pcbs for v66
-                    </div>
-                    <figure style="width: 40%; margin-right: 5%; float:right;">
-                        <img src="" style="width: 100%; display: block;">
-                        <figcaption>a pcb</figcaption>
-                    </figure>
-                </div>
+                <h2 class="full-paragraph">
+                    _
+                </h2>
             </div>
 
             <div class="full-paragraph"> <br> </div>
@@ -216,32 +275,146 @@
             </div>
             <div style="margin-bottom:20pt">
                 <h2 class="full-paragraph">
-                    [] firmware
+                    TBA
                 </h2>
-                <figure style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
-                    <img src="res/V66CodeSnippet.png" style="width: 100%; display: block;">
-                    <figcaption>put Something else here</figcaption>
-                </figure>
                 <div class="full-paragraph">
-                    []
+                    <br><br>
+                    <br><br>
+                    To be added after the project is released.
                     <br><br>
                 </div>
                 <h2 class="full-paragraph">
-                    Converters
+                    Data conversion
                 </h2>
                 <figure style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
-                    <img src="res/V66CodeSnippet.png" style="width: 100%; display: block;">
-                    <figcaption>idk what to put here</figcaption>
+                    <img src="res/ASL_datafile_conversion_snippet.png" style="width: 100%; display: block;">
+                    <figcaption>A code snippet of the data conversion</figcaption>
                 </figure>
                 <div class="full-paragraph">
-                    The V66 VCU was the controller that powered the Viking 66 FSAE car.
-                    The processor was a little underpowered, so required a very optimized control algorithm to get it working anywhere near real time.
+                    There are many competing standards for dataloggers, and they all have their own unique files that they spit out upon logging data. 
+                    At autosport labs we also have a proprietary data file format, so I wrote a conversion that would take in AIM, Motec, and VBOX files and generate a racecapture file off of them.
+                    <br><br>
+                    While doing this I also wrote an algorithm for matching datasets to different track configurations by projecting both onto a flat plane and using mean distance.
+                    <br><br>
+                    The code for this project is not public.
                     <br><br>
                 </div> 
             </div>
 
             <div style="margin-bottom: 200px;"><br></div>
         </div>
-        
+
+        <div style="margin-bottom: 80%;">
+            <br id="secondBreak">
+        </div>
+
+        <div style="background-color: var(--d_dark-grey);">
+            <br>
+            <h1 class="full-paragraph">
+                Personal projects
+            </h1>
+            <div class="full-paragraph">
+                As a self taught programmer who's been making things for about a decade, I have a massive collection of projects I have either finished or abandoned. 
+                These are some of the most noteworthy.
+            </div>
+            <span style="margin-bottom:20pt">
+                <h2 class="full-paragraph">
+                    OpenGL experiments
+                </h2>
+                <figure style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+                    <img src="res/pp_game3.png" style="width: 100%; display: block;">
+                    <figcaption>A screenshot of a game I worked on in openGL</figcaption>
+                </figure>
+                <div class="full-paragraph">
+                    Over the pandemic, I became pretty obssessed with making my own game engines using opengl and c++/c. 
+                    These games and tools were usually small to moderate in scope and took me a couple months each. 
+                    <br><br>
+                </div>
+                <div class="full-paragraph">
+                    <div class="left-paragraph">
+                        <b>Mandlebrot Renderer</b><br><br>
+                        I wrote a program that rendered fractals. 
+                        It runs on the GPU so very complicated fractals can be run completely and explored in real time.
+                        <br><br>
+                        The last released version can be found <a href="https://github.com/NicoleSwierstra/FractalVisualizer/releases">here.</a> I also incorperated the julia fractal code into the homepage of this website.
+                        <br><br>
+                    </div>
+                    <figure style="width: 40%; margin-right: 5%; float: right;">
+                        <img src="res/pp_mandlebrot.png" style="width: 100%; display: block;">
+                        <figcaption>The mandlebrot renderer</figcaption>
+                    </figure>
+                    ... 
+                </div>
+
+                <br>
+                
+                <div class="full-paragraph">
+                    <figure style="width: 40%; margin-right: 5%; float: left;">
+                        <img src="res/pp_game1.png" style="width: 100%; display: block;">
+                        <figcaption>The driving game</figcaption>
+                    </figure>
+                    
+                    <div class="right-paragraph">
+                        <b>Unnamed Driving Game</b><br><br>
+                        Origionally just a computer background, this application turned into an arcadey driving game, where the goal was to not crash.
+                        
+                        <br><br>
+
+                        I have lost the code for this, but I rewrote much of the mechanics for this very website in webgl.
+
+                        <br><br>
+                    </div>
+                    ...
+                </div>
+
+                <br>
+
+                <div class="full-paragraph">
+                    <div class="left-paragraph">
+                        <b>Unnamed Dogfighting Game</b><br><br>
+                        Based on the asthetics of the earlier driving game, this game was about dogfighting. I ended up not finishing it because I couldn't figure out how to actually make it fun.
+                        <br><br>
+                        It did look pretty cool and I wrote an entire engine around it with ~12,000 lines of code that I could reuse in other projects.
+                    </div>
+                    <figure style="width: 40%; margin-right: 5%; float: right;">
+                        <img src="res/pp_game2.png" style="width: 100%; display: block;">
+                        <figcaption>The game</figcaption>
+                    </figure>
+                    ...
+                </div>
+                <h2 class="full-paragraph">
+                    Chordle
+                </h2>
+                <span class="full-paragraph"> 
+                    <figure style="width: 30%; margin-left: 5%; float:left;">
+                        <img src="res/PP_Chordle.png" style="width: 100%; display: block;">
+                        <figcaption>Chordle.</figcaption>
+                    </figure>
+                    <div class="right-paragraph" style="width:55%">
+                        Chordle is an web game based off of the game "wordle". 
+                        It was made to help musicians with ear training.
+
+                        <br><br>
+
+                        It was written, much like this website was, in html and javascript with no frameworks or anything else.
+                        I am not a web developer and am not very good at it but I did have an idea for this website and just wanted to get it done without anything crazy.
+
+                        <br><br>
+
+                        It ended up being pretty difficult to make but rewarding in the end.
+
+                        <br><br>
+
+                        You can find the website <a href="chordlegame.github.io">here.</a>
+                        
+                        <br><br>
+                    </div>
+
+                    ...
+                </span> 
+            </span>
+            <div style="margin-bottom: 200px;"><br></div>
+
+        </div>
     </body>
 </html>

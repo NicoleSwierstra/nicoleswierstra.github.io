@@ -26,8 +26,8 @@ out vec4 color;
 
 void main() {
 	vec3 norm = normalize(Normal);
-	vec3 lightDir = normalize(vec3(0.0f, 10.0f, 10.0f));
-	float li = min(1.0f, max(dot(norm, lightDir) + 0.5f, 0.0)) + 0.5f;
+	vec3 lightDir = normalize(vec3(0.0f, 10.0f, 5.0f));
+	float li = min(1.0f, max(dot(norm, lightDir) + 0.15f, 0.0)) + 0.5f;
 	vec4 lighting = vec4(li, li, li, 1.0f);
-	color = mix(vec4(0.125f, 0.125f, 0.15f, 0.95f), vec4(0.05f, 0.05f, 0.05f, 1.0f), 1.0-l) * lighting;
+	color = mix(vec4(0.125f, 0.125f, 0.15f, 0.95f), vec4(0.1f, 0.1f, 0.1f, 1.0f), 1.0-l) * lighting;
 }	
