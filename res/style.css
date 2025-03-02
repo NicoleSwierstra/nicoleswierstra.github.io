@@ -131,7 +131,7 @@ figcaption{
     margin-right: auto;
 }
 
-@media (max-width:600px) {
+@media (max-width:1200px) {
     .left-paragraph {
         width: 90%;
         display: block;
