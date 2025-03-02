@@ -18,7 +18,7 @@
     <canvas width = 600px height = 480px id = "my_Canvas"></canvas>
     <body>
 
-        <div style="margin-bottom: 55%; opacity: 0%; background-color: transparent;">
+        <div style="margin-bottom: 80vh; opacity: 0%; background-color: transparent;">
             <br>
         </div>
 
@@ -47,7 +47,7 @@
                 <h2 class="full-paragraph">
                     Viking 66 VCU OS (2023-)
                 </h2>
-                <figure style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+                <figure class="centerImage">
                     <img src="res/V66CodeSnippet.png" style="width: 100%; display: block;">
                     <figcaption>V66 VCU Code Snippet</figcaption>
                 </figure>
@@ -56,7 +56,7 @@
                     The processor was a little underpowered, so required a very optimized control algorithm to get it working anywhere near real time.
                     <br><br>
                 </div>
-                <div style="display: flex; width: 100%;"> 
+                <div class="full-width"> 
                     <div class="left-paragraph">
                         The VCU takes in sensor data from the accelerator pedal and the brake pedal in order to figure out how much torque the motor should put out.
                         Because of the low power and lack of FPU in the chip, only a couple dozen floating point operations are used. 
@@ -64,13 +64,13 @@
                         The VCU Talks to a cascadia motion CM200 over the CAN bus, and reveals internal state over CAN as well.
                         <br>
                     </div>
-                    <figure style="width: 40%; margin-right: 5%; float:right;">
+                    <figure class="rightImage">
                         <img src="res/V66-testing.png" style="width: 100%; display: block;">
                         <figcaption>Testing the CAN control algorithm</figcaption>
                     </figure>
                 </div>
                 <div class="full-width"> 
-                    <figure style="width: 40%; margin-left: 5%; float:left;">
+                    <figure class="leftImage">
                         <video src="res/workingVCU.mp4" style="width: 100%; display: block;" autoplay loop muted></video>
                         <figcaption>Early working VCU</figcaption>
                     </figure>
@@ -91,13 +91,13 @@
                         The code for this tool can be found here,
                         <a href="https://github.com/wwuracingGH/v66-vcu">here</a>, but it's a bit messier 
                     </div>
-                    <figure style="width: 40%; margin-right: 5%; float:right;">
+                    <figure class="rightImage">
                         <video src="res/V66-VCU-Telemetry.MOV" style="width: 100%; display: block;" autoplay loop muted></video>
                         <figcaption>Real time sensor data from the vcu</figcaption>
                     </figure>
                 </div>
                 <div class="full-width">
-                    <figure style="width: 40%; margin-left: 5%; float:left; display: inline;">
+                    <figure class="leftImage">
                         <video src="res/v66TestDay.MOV" style="width: 100%; display: block;" autoplay loop muted></video>
                         <figcaption>The car during a test day</figcaption>
                     </figure>
@@ -121,19 +121,19 @@
                         <br><br> It started as a prototype with a cheap LCD, but quickly grew in scope
                         <br>
                     </div>
-                    <figure style="width: 40%; margin-left: 5%; float:right; display: inline;">
+                    <figure class="rightImage">
                         <video src="res/RotatesYourCar.MP4" style="width: 100%; display: block;" autoplay loop muted></video>
                         <figcaption>Very early dash prototype</figcaption>
                     </figure>
                 </div> 
-                <div>
+                <div class="full-width">
                     <div class="right-paragraph">
                         After half a dozen iterations, it was clear that the scope had balooned too much to continue to be an FSAE project, and it was shelved for the V66 year car.
                         I continued to work on it to validate that my design worked.
                         <br><br>
                         In the 6th iteration, the chunky dot matrix module was swapped for a proper screen, and the teensy was swapped for an STM U5
                     </div>
-                    <figure style="width: 40%; margin-left: 5%; float:left; display: inline;">
+                    <figure class="leftImage">
                         <img src="res/V66-DASH-PROTOTYPE.png" style="width: 100%; display: block;">
                         <figcaption>6th version of the dash in altium</figcaption>
                     </figure>
@@ -144,7 +144,7 @@
                         The testing did end up giving valuble insight for future projects 
                         <br><br>
                     </div>
-                    <figure style="width: 40%; margin-right: 5%; float:right; display: inline;">
+                    <figure class="rightImage">
                         <img src="res/V66-DASH-PROTOTYPE-FULL.png" style="width: 100%; display: block;">
                         <figcaption>6th version of the dash, assembled</figcaption>
                         
@@ -166,7 +166,7 @@
                 <h2 class="full-paragraph">
                     Viking 67 VCU/Dash (2024-)
                 </h2>
-                <figure style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+                <figure class="centerImage">
                     <img src="res/V67LinuxStmPCB.png" style="width: 100%; display: block;">
                     <figcaption>Early Design for the V67 VCU</figcaption>
                 </figure>
@@ -207,7 +207,7 @@
 
                 <div class="full-width">
                     
-                    <figure style="width: 40%; margin-left: 5%; float:left; display: block;">
+                    <figure class="leftImage">
                         <img src="res/V66-BMS-rerouted.png" style="width:100%; display: inline;">
                         <figcaption>The rerouted bms board</figcaption> 
                     </figure>
@@ -239,7 +239,7 @@
                         <b>Enclosure Design</b><br><br>
                         Some circuit boards and components needed custom enclosures that I designed, 3d printed, and post-processed for waterproofing.
                     </div>
-                    <figure style="width: 40%; margin-right: 5%; float: right;">
+                    <figure class="rightImage">
                         <img src="res/v66-bspd-enclosure.png" style="width: 100%; display: block;">
                         <figcaption>V66 bspd enclosure</figcaption>
                     </figure>
@@ -260,7 +260,7 @@
             <div style="margin-bottom: 200px;"><br></div>
         </div>
         
-        <div style="margin-bottom: 80%;">
+        <div style="margin-bottom: 80vh;">
             <br id="firstBreak">
         </div>
 
@@ -303,7 +303,7 @@
             <div style="margin-bottom: 200px;"><br></div>
         </div>
 
-        <div style="margin-bottom: 80%;">
+        <div style="margin-bottom: 80vh;">
             <br id="secondBreak">
         </div>
 
@@ -320,7 +320,7 @@
                 <h2 class="full-paragraph">
                     OpenGL experiments
                 </h2>
-                <figure style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+                <figure class="centerImage">
                     <img src="res/pp_game3.png" style="width: 100%; display: block;">
                     <figcaption>A screenshot of a game I worked on in openGL</figcaption>
                 </figure>
@@ -338,7 +338,7 @@
                         The last released version can be found <a href="https://github.com/NicoleSwierstra/FractalVisualizer/releases">here.</a> I also incorperated the julia fractal code into the homepage of this website.
                         <br><br>
                     </div>
-                    <figure style="width: 40%; margin-right: 5%; float: right;">
+                    <figure class="rightImage">
                         <img src="res/pp_mandlebrot.png" style="width: 100%; display: block;">
                         <figcaption>The mandlebrot renderer</figcaption>
                     </figure>
@@ -348,7 +348,7 @@
                 <br>
                 
                 <div class="full-paragraph">
-                    <figure style="width: 40%; margin-right: 5%; float: left;">
+                    <figure class="leftImage">
                         <img src="res/pp_game1.png" style="width: 100%; display: block;">
                         <figcaption>The driving game</figcaption>
                     </figure>
@@ -375,7 +375,7 @@
                         <br><br>
                         It did look pretty cool and I wrote an entire engine around it with ~12,000 lines of code that I could reuse in other projects.
                     </div>
-                    <figure style="width: 40%; margin-right: 5%; float: right;">
+                    <figure class="rightImage">
                         <img src="res/pp_game2.png" style="width: 100%; display: block;">
                         <figcaption>The game</figcaption>
                     </figure>

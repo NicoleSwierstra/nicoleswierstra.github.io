@@ -83,6 +83,19 @@ figcaption{
     color: var(--light-grey)
 }
 
+.full-paragraph {
+    width: 90%;
+    display: block;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 20px;
+}
+
+.full-width {
+    width: 100%;
+    display: flex;
+}
+
 .left-paragraph {
     margin-left: 5%; 
     margin-top: 10px; 
@@ -99,17 +112,68 @@ figcaption{
     margin-right: 5%;
 }
 
-.full-paragraph {
-    width: 90%;
-    display: block;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-top: 20px;
+.rightImage {
+    width: 40%; 
+    margin-right: 5%; 
+    float:right;
 }
 
-.full-width {
-    width: 100%;
-    display: flex;
+.leftImage {
+    width: 40%; 
+    margin-left: 5%; 
+    float:left;
+}
+
+.centerImage {
+    width: 80%; 
+    display: block; 
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+@media (max-width:600px) {
+    .left-paragraph {
+        width: 90%;
+        display: block;
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-top: 20px;
+    }
+
+    .right-paragraph {
+    
+        width: 90%;
+        display: block;
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-top: 20px;
+    }
+
+    .rightImage {
+        width: 90%; 
+        display: block;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    .leftImage {
+        width: 90%; 
+        display: block; 
+        margin-left: 5%; 
+        margin-right: 5%;
+    }
+
+    .centerImage {
+        width: 90%; 
+        display: block; 
+        margin-left: 5%; 
+        margin-right: 5%;
+    }
+
+    .full-width {
+        width: 100%;
+        display: block;
+    }
 }
 
 .step {
@@ -127,6 +191,8 @@ figcaption{
     grid-row: 1;
     grid-column: 1;
 }
+
+
 
 @keyframes ripple {
     0%{
