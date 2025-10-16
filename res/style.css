@@ -208,6 +208,12 @@ figcaption{
     }
 }
 
+@media (max-width:1000pt){
+    .contents {
+        display: none;
+    }
+}
+
 .step {
 	animation-name: ripple;
 	animation-duration: 2s;
