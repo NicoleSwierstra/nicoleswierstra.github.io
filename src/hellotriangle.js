@@ -312,7 +312,11 @@ var animate = function(time) {
     let [relscrolly, index, relscrolldir] = distFromNArray(window.scrollY, breakpauses); 
     let opmut = Math.min(Math.max(0, 1000 - Math.abs(relscrolly)), 800) / 800.0;
     canvas.style.opacity = String(opmut);
-    sidebar.style.opacity = String(Math.pow(1.0 - (opmut * 2), 0.5));
+    console.log()
+    if (sidebar.computedStyleMap().get('position').value == 'sticky')
+        sidebar.style.opacity = String(Math.pow(1.0 - (opmut * 2), 0.5));
+    else 
+        sidebar.style.opacity = String(1.0);
 
     let major_selected = 0;
     let minor_selected = 0;
@@ -331,8 +335,6 @@ var animate = function(time) {
     }
     
     if(minor_selected != 0) minor_selected -= 1;
-    
-    console.log(cmin_starts, breakpauses)
 
     for(let i = 0; i < contents_major.length; i++){
         contents_major[i].className = "major";
