@@ -313,7 +313,7 @@ var animate = function(time) {
     let opmut = Math.min(Math.max(0, 1000 - Math.abs(relscrolly)), 800) / 800.0;
     canvas.style.opacity = String(opmut);
     console.log()
-    if (sidebar.computedStyleMap().get('position').value == 'sticky')
+    if (!window.matchMedia("(max-width:1000pt)").matches)
         sidebar.style.opacity = String(Math.pow(1.0 - (opmut * 2), 0.5));
     else 
         sidebar.style.opacity = String(1.0);

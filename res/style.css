@@ -52,7 +52,7 @@
 .contents {
     top: 10%;
     padding: 20px 40px;
-    position: sticky;
+    position: fixed;
     opacity: 0;
 }
 
