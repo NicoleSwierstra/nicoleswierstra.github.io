@@ -314,7 +314,7 @@ var animate = function(time) {
     canvas.style.opacity = String(opmut);
     console.log()
     if (!window.matchMedia("(max-width:1000pt)").matches)
-        sidebar.style.opacity = String(Math.pow(1.0 - (opmut * 2), 0.5));
+        sidebar.style.opacity = String(2.0 - (opmut * 2));
     else 
         sidebar.style.opacity = String(1.0);
 
