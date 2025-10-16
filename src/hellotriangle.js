@@ -17,6 +17,13 @@ let breakpauses = [
     document.getElementById('secondBreak').getBoundingClientRect().top
 ]
 
+let contents_major = [...document.getElementsByClassName("major")];
+let contents_minor = [...document.getElementsByClassName("minor")];
+
+console.log(contents_major.length)
+
+let sidebar = document.getElementById('sidebar')
+
 function hexToRgb(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
@@ -292,6 +299,7 @@ breakpauses = [
     document.getElementById('secondBreak').getBoundingClientRect().top + window.scrollY
 ]
 
+let cmin_starts = contents_minor.map((x) => (document.getElementById(x.getAttributeNode("href").value.substring(1)).getBoundingClientRect().top + window.scrollY))
 
 let vehicle_pos_x = 0
 
@@ -302,7 +310,40 @@ var animate = function(time) {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     let [relscrolly, index, relscrolldir] = distFromNArray(window.scrollY, breakpauses); 
-    console.log(relscrolly)
+    let opmut = Math.min(Math.max(0, 1000 - Math.abs(relscrolly)), 800) / 800.0;
+    canvas.style.opacity = String(opmut);
+    sidebar.style.opacity = String(Math.pow(1.0 - (opmut * 2), 0.5));
+
+    let major_selected = 0;
+    let minor_selected = 0;
+
+    for(; major_selected < breakpauses.length; major_selected++){
+        let cm = breakpauses[major_selected];
+        if(window.scrollY + 200 <= cm)
+            break;
+    }
+    major_selected -= 1;
+
+    for(; minor_selected < cmin_starts.length; minor_selected++){
+        let cm = cmin_starts[minor_selected];
+        if(window.scrollY + 200 <= cm)
+            break;
+    }
+    
+    if(minor_selected != 0) minor_selected -= 1;
+    
+    console.log(cmin_starts, breakpauses)
+
+    for(let i = 0; i < contents_major.length; i++){
+        contents_major[i].className = "major";
+    }
+    contents_major[major_selected].className = "major_selected";
+
+    for(let i = 0; i < contents_minor.length; i++){
+        contents_minor[i].className = "minor";
+    }
+    contents_minor[minor_selected].className = "minor_selected";
+
     switch(index) {
         case 2:
         case 0: {
@@ -312,9 +353,6 @@ var animate = function(time) {
             rot = glm.rotate(rot, glm.radians(mousey * 5), glm.vec3(1.0, 0.0, 0.0))
             let sscrollspeed = index == 2 ? scrollspeed + ((1 - Math.min(Math.max(mousey, -0.6), 0.6)) * 5) : scrollspeed
             pos = glm.vec3(0, (pos.y - (sscrollspeed * dt * scmut)), -1.5);
-
-            let opmut = Math.min(Math.max(0, 1000 - relscrolly), 800) / 800.0;
-            canvas.style.opacity = String(opmut);
 
             if (pos.y < -30) {pos.y += scaley}
 
@@ -393,7 +431,6 @@ var animate = function(time) {
                 let nrot = glm.rotate(rot, glm.radians(90), glm.vec3(1.0, 0.0, 0.0));
                 let _t = 1.0 * (1 - (sscrollspeed / 10)) +  0.95 * (sscrollspeed / 10)
                 vehicle_pos_x = vehicle_pos_x * _t + (Math.max(Math.min(mousex, 0.32), -0.32) * 2 * (1 -_t))
-                console.log(sscrollspeed, mousey)
                 let dvpx = vehicle_pos_x - (Math.max(Math.min(mousex, 0.32), -0.32) * 2)
                 let ntrans = glm.translate(nrot, glm.vec3(vehicle_pos_x, -1, -2 + mousey / 2))
                 let nscale = glm.scale(ntrans, glm.vec3(0.15,0.15,0.15))
@@ -415,8 +452,7 @@ var animate = function(time) {
             }
         }; break;
         case 1:{
-            let opmut = Math.min(Math.max(0, 1000 - Math.abs(relscrolly)), 800) / 800.0;
-            canvas.style.opacity = String(opmut);
+            
 
             let ntrans = glm.translate(glm.mat4(1.0), glm.vec3(0, 0, -6))
             let nrot = glm.rotate(ntrans, glm.radians(30), glm.vec3(1.0, 0.0, 0.0))

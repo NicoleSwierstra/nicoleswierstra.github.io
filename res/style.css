@@ -1,6 +1,7 @@
 :root {
     --dark-grey:    #5D5C61;
     --light-grey:   #938E94;
+    --lighter-grey: #a8a3a8;
     --pale-blue:    #7395AE;
     --deep-blue:    #557A95;
     --smart-tan:    #B0A295;
@@ -22,7 +23,6 @@
     background-color: var(--d_dark-grey);
     padding: 20px 10px;
     transition: position 0.2s ease-in-out;
-    position: sticky;
     top: 0px;
 }
 
@@ -35,11 +35,9 @@
     color: var(--pale-blue);
     text-align: center;
     padding: 12px;
-    text-decoration: none;
     font-size: 30pt;
     line-height: 25px;
     border-radius: 4px;
-
 }
 
 .header a.logo {
@@ -51,6 +49,36 @@
     float: right;
 }
 
+.contents {
+    top: 10%;
+    padding: 20px 40px;
+    position: sticky;
+}
+
+.contents a.major {
+    text-decoration: none;
+    color: var(--light-grey);
+    font-weight: bold;
+}
+
+.contents a.minor {
+    font-weight: normal;
+    text-decoration: none;
+    color: var(--light-grey);
+}
+
+.contents a.major_selected {
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+}
+
+.contents a.minor_selected {
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--lighter-grey);
+}
+
 body {
     background-color: var(--d_dark-grey);
     position: relative;
@@ -59,8 +87,6 @@ body {
     font-family: CascadiaCode;
     font-weight: lighter;
     text-align: left;
-    margin: auto;
-    max-width: 1000px;
 }
 
 h1 {
@@ -75,6 +101,10 @@ h2 {
     font-size: 28pt;
     color: var(--pale-blue);
     font-weight: bold;
+}
+
+h3 {
+    color: var(--pale-blue);
 }
 
 figcaption{
@@ -130,6 +160,8 @@ figcaption{
     margin-left: auto; 
     margin-right: auto;
 }
+
+
 
 @media (max-width:450pt) {
     .left-paragraph {

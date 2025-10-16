@@ -6,16 +6,39 @@
     <link rel="stylesheet" href="res/style.css">
 
     <div class="header" id="topbar">
+        <div style="max-width: 1000px; margin: auto">
         <a href="index.html" class="logo">Nicole Swierstra</a>
         <div class="header-right">
             <a href="Portfolio.html">Portfolio</a>
         </div>
+        </div>
+    </div>
+
+    <div class="contents" id="sidebar">
+        <h3>Contents: </h3>
+        <a href="#proj_fsae" class="major">FSAE Projects</a><br>
+        <a href="#proj_fsae_1" class="minor">- V66 VCU</a><br>
+        <a href="#proj_fsae_2" class="minor">- V66 Dash</a><br>
+        <a href="#proj_fsae_3" class="minor">- V67 VCU</a><br>
+        <a href="#proj_fsae_4" class="minor">- Laptime Simulator</a><br>
+        <a href="#proj_fsae_5" class="minor">- BMS Restoration</a><br>
+        <a href="#proj_fsae_6" class="minor">- Minor Projects</a><br>
+        <br><br>
+        <a href="#proj_asl" class="major">ASL Projects</a><br>
+        <a href="#proj_asl_1" class="minor">- Embedded proj</a><br>
+        <a href="#proj_asl_2" class="minor">- Conversion</a><br>
+        <br><br>
+        <a href="#proj_personal" class="major">Personal Projects</a><br>
+        <a href="#proj_personal_1" class="minor">- OpenGL</a><br>
+        <a href="#proj_personal_2" class="minor">- Chordle</a><br>
+        
     </div>
 
     <script src='https://git.io/glm-js.min.js'></script>
     <script type="module" src="src/hellotriangle.js"></script>
     <canvas width = 600px height = 480px id = "my_Canvas"></canvas>
     <body>
+        <div style="max-width: 1000px; margin:auto;">
         <div style="margin-bottom: 80vh; opacity: 0%; background-color: transparent;" id="sep">
             <br>
         </div>
@@ -28,7 +51,7 @@
                 ▽
             </div>
         </div>
-        <div style="background-color: var(--d_dark-grey);">
+        <div style="background-color: var(--d_dark-grey);" id="proj_fsae">
             <br>
             <h1 class="full-paragraph">
                 Formula SAE
@@ -42,7 +65,7 @@
             </p>
            
             <div style="margin-bottom:20pt">
-                <h2 class="full-paragraph">
+                <h2 class="full-paragraph" id="proj_fsae_1">
                     Viking 66 VCU OS (2023-)
                 </h2>
                 <figure class="centerImage">
@@ -107,7 +130,7 @@
 
             </div>
 
-            <div style="width: 100%; margin-bottom: 20pt;">
+            <div style="width: 100%; margin-bottom: 20pt;" id="proj_fsae_2">
                 <h2 class="full-paragraph">
                     Viking 66 Dash (2023-2024) 
                 </h2>
@@ -160,7 +183,7 @@
                 </div>
             </div>
             
-            <div style="width: 100%;">
+            <div style="width: 100%;" id="proj_fsae_3">
                 <h2 class="full-paragraph">
                     Viking 67 VCU/Dash (2024-)
                 </h2>
@@ -173,7 +196,7 @@
                 </div>
             </div>
 
-            <div style="width: 100%;">
+            <div style="width: 100%;" id="proj_fsae_4">
                 <h2 class="full-paragraph">
                     Laptime Simulator and Digital Double
                 </h2>
@@ -190,7 +213,7 @@
                 </div>
             </div>
 
-            <div style="width: 100%;">
+            <div style="width: 100%;" id="proj_fsae_5">
                 <h2 class="full-paragraph">
                     V66 BMS restoration
                 </h2>
@@ -229,7 +252,7 @@
             </div>
 
             <div style="width:100%;">
-                <h2 class="full-paragraph">
+                <h2 class="full-paragraph" id="proj_fsae_6">
                     Minor Projects
                 </h2>
                 <div class="full-paragraph">
@@ -262,7 +285,7 @@
             <br id="firstBreak">
         </div>
 
-        <div style="background-color: var(--d_dark-grey);">
+        <div style="background-color: var(--d_dark-grey);" id="proj_asl">
             <br>
             <h1 class="full-paragraph">
                 AUTOSPORT LABS
@@ -271,7 +294,7 @@
                 Autosport labs is a company that makes dataloggers. I started working there in 2024, and work very part time.
             </div>
             <div style="margin-bottom:20pt">
-                <h2 class="full-paragraph">
+                <h2 class="full-paragraph" id = "proj_asl_1">
                     TBA
                 </h2>
                 <div class="full-paragraph">
@@ -280,7 +303,7 @@
                     To be added after the project is released.
                     <br><br>
                 </div>
-                <h2 class="full-paragraph">
+                <h2 class="full-paragraph" id = "proj_asl_2">
                     Data conversion
                 </h2>
                 <figure style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
@@ -305,7 +328,7 @@
             <br id="secondBreak">
         </div>
 
-        <div style="background-color: var(--d_dark-grey);">
+        <div style="background-color: var(--d_dark-grey);" id="proj_personal">
             <br>
             <h1 class="full-paragraph">
                 Personal projects
@@ -315,7 +338,7 @@
                 These are some of the most noteworthy.
             </div>
             <span style="margin-bottom:20pt">
-                <h2 class="full-paragraph">
+                <h2 class="full-paragraph" id="proj_personal_1">
                     OpenGL experiments
                 </h2>
                 <figure class="centerImage">
@@ -382,7 +405,7 @@
                 <h2 class="full-paragraph">
                     Chordle
                 </h2>
-                <span class="full-paragraph"> 
+                <span class="full-paragraph" id="proj_personal_2"> 
                     <figure style="width: 30%; margin-left: 5%; float:left;">
                         <img src="res/PP_Chordle.png" style="width: 100%; display: block;">
                         <figcaption>Chordle.</figcaption>
@@ -413,6 +436,6 @@
             <div style="margin-bottom: 200px;"><br></div>
 
         </div>
-    </body>
+    </div></body>
     <script src="src/adjHeight.js"></script>
 </html>
