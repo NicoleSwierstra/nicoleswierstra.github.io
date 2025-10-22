@@ -29,9 +29,9 @@
         <a href="#proj_asl_2" class="minor">- Conversion</a><br>
         <br><br>
         <a href="#proj_personal" class="major">Personal Projects</a><br>
+        <a href="#proj_personal_0" class="minor">- Inverter</a><br>
         <a href="#proj_personal_1" class="minor">- OpenGL</a><br>
         <a href="#proj_personal_2" class="minor">- Chordle</a><br>
-        
     </div>
 
     <script src='https://git.io/glm-js.min.js'></script>
@@ -185,14 +185,47 @@
             
             <div style="width: 100%;" id="proj_fsae_3">
                 <h2 class="full-paragraph">
-                    Viking 67 VCU/Dash (2024-)
+                    Viking 67 VCU (2024-)
                 </h2>
                 <figure class="centerImage">
                     <img src="res/V67LinuxStmPCB.png" style="width: 100%; display: block;">
                     <figcaption>Early Design for the V67 VCU</figcaption>
                 </figure>
                 <div class="full-paragraph">
-                    The V67 VCU is a work in progress ASMP board with a linux system sitting on top of a real time subsystem. Based on the V66 dash, it is still a work in progress.
+                    The V67 VCU was origionally an ASMP board with a linux system sitting on top of a real time subsystem. 
+                    After reevaluating our team's goals, and realizing that without me on the team it would be kind of impossible to maintain, 
+                    we switched back to a microcontroller design, specifically one implementing the stm32h5 to give ourselves more performance overhead.
+                    <br><br>
+                </div>
+                <div class = "full-width">
+                    <figure class="leftImage">
+                        <video src="res/workingVCU2.mov" style="width: 100%; display: block;" autoplay loop muted></video>
+                        <figcaption>V67's vcu testing</figcaption>
+                    </figure>
+                    <div class="right-paragraph">
+                        <br>
+                        While it worked well v66 year to have one person write all of the code and drivers from scratch, this model is probably unsustainable (at some point I will graduate). 
+                        Therefore, one of our goals for v67 was having a certain percentage of code written by new members. 
+                        To help accomplish this goal, we split up the codebase into modules that could be assigned to new members, and changed our process.
+                        <br><br>
+                    </div>
+                </div>
+                <div class = "full-width">
+                    <div class="left-paragraph">
+                        <br>
+                        Another goal for v67's VCU was proper validation. v66's codebase was messy and was in a constant state of revision, with other members of the team not knowing or understanding it's behavior.
+                        It also had strange edge cases and quirks that weren't obvious to anyone who weren't familiar with the codebase. 
+                        <br><br>
+                    </div>
+                    <figure class="rightImage">
+                        <img src="res/codeCertification.png" style="width: 100%; display: block;"></img>
+                        <figcaption>The certification spreadsheet</figcaption>
+                    </figure>
+                </div>
+                <div class="full-paragraph">
+                    Therefore, while I was mentoring new members on how to write code, I also came up with a method for both communicating and verifying all behavior to other members of the electronics team, a big excel spreadsheet.
+                    This came with the added benifit of being a resource that new members could look at to understand all of the necessary behavior that the VCU should do.
+                    <br><br>
                 </div>
             </div>
 
@@ -338,6 +371,34 @@
                 These are some of the most noteworthy.
             </div>
             <span style="margin-bottom:20pt">
+                <div>
+                <h2 class="full-paragraph" id = "proj_personal_0">
+                    EBike Inverter
+                </h2>
+                <div class="full-paragraph">
+                    <br><br>
+                    I don't own a car, but often find myself shopping for both me and my roommate with enough grocerys it becomes impractical and sometimes painful for me to carry them from the store.
+                    Therefore, I wanted to get an E-bike. I already had a bike, so thought making an ebike drive system would be a fun challenge.
+                    <br><br>
+                    The part I was most excited about making was the motor controller, which is also known as an inverter.
+                    This component is the most complicated part of the electric drive system, and it is responsible for turning the direct current from the battery pack into alternating current for the motor.
+                    <br><br>
+                    For some reason one of my goals for the project was to achieve a power density that was near the leading edge of inverter design.
+                    Instead of normal MOSFETs that you might find in most traction inverters of it's size, it uses GANFETS, which are only just starting to get commercial adoption in the last few years.
+                    The main benifit of GANFETS is that they can switch at very high frequencies, lowering the capacitance requirement for the inverter, allowing for slim packaging.
+                    They also allow the efficiency to theoretically get to about 98.6%, much higher than a typical inverter of it's size, and allowing for a lower cooling requirement.
+                    <br><br>
+                    To help with both cooling and with power transmission, solid copper busbars were soldered to the underside of the PCB.
+                    These will connect to the housing of the inverter with a high performance thermal pad.
+                    <br><br>
+                    In order to maintain the extremely high switching speed, a very fast stm32h7 is going to control the inverter.
+                    I have already written the main control algorithm in assembly to make it as fast as possible.
+                    <br><br>
+                    I am hoping my work here could lead to the FSAE team adoping far cheaper in house inverters if they choose to go the hub motor route than buying expensive off the shelf ones.
+                    <br><br>
+                    This project is a work in progress, I will update it with photos and results as work goes on.
+                </div>
+                </div>
                 <h2 class="full-paragraph" id="proj_personal_1">
                     OpenGL experiments
                 </h2>
@@ -350,7 +411,7 @@
                     These games and tools were usually small to moderate in scope and took me a couple months each. 
                     <br><br>
                 </div>
-                <div class="full-paragraph">
+                <div class="full-width">
                     <div class="left-paragraph">
                         <b>Mandlebrot Renderer</b><br><br>
                         I wrote a program that rendered fractals. 
@@ -368,7 +429,7 @@
 
                 <br>
                 
-                <div class="full-paragraph">
+                <div class="full-width">
                     <figure class="leftImage">
                         <img src="res/pp_game1.png" style="width: 100%; display: block;">
                         <figcaption>The driving game</figcaption>
@@ -389,7 +450,7 @@
 
                 <br>
 
-                <div class="full-paragraph">
+                <div class="full-width">
                     <div class="left-paragraph">
                         <b>Unnamed Dogfighting Game</b><br><br>
                         Based on the asthetics of the earlier driving game, this game was about dogfighting. I ended up not finishing it because I couldn't figure out how to actually make it fun.
