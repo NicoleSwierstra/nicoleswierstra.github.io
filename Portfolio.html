@@ -383,21 +383,39 @@
                     The part I was most excited about making was the motor controller, which is also known as an inverter.
                     This component is the most complicated part of the electric drive system, and it is responsible for turning the direct current from the battery pack into alternating current for the motor.
                     <br><br>
-                    For some reason one of my goals for the project was to achieve a power density that was near the leading edge of inverter design.
-                    Instead of normal MOSFETs that you might find in most traction inverters of it's size, it uses GANFETS, which are only just starting to get commercial adoption in the last few years.
-                    The main benifit of GANFETS is that they can switch at very high frequencies, lowering the capacitance requirement for the inverter, allowing for slim packaging.
-                    They also allow the efficiency to theoretically get to about 98.6%, much higher than a typical inverter of it's size, and allowing for a lower cooling requirement.
-                    <br><br>
-                    To help with both cooling and with power transmission, solid copper busbars were soldered to the underside of the PCB.
-                    These will connect to the housing of the inverter with a high performance thermal pad.
-                    <br><br>
-                    In order to maintain the extremely high switching speed, a very fast stm32h7 is going to control the inverter.
-                    I have already written the main control algorithm in assembly to make it as fast as possible.
-                    <br><br>
+                </div>
+                <div class="full-width">
+                    <div class="left-paragraph">
+                        For some reason one of my goals for the project was to achieve a power density that was near the leading edge of inverter design.
+                        Instead of normal MOSFETs that you might find in most traction inverters of it's size, it uses GAN HEMTs, which are only just starting to get commercial adoption in the last few years.
+                        The main benifit of GAN HEMTs is that they can switch at very high frequencies, lowering the capacitance requirement for the inverter, allowing for slim packaging.
+                        They also allow the efficiency to theoretically get to about 98.6%, much higher than a typical inverter of it's size, and allowing for a lower cooling requirement.
+                        <br><br>
+                    </div>
+                    <figure class="rightImage">
+                        <img src="res/MC-Top.png" style="width: 100%; display: block;">
+                        <figcaption>The power stage of the inverter</figcaption>
+                    </figure>
+                    </div>
+                </div>
+                <div class="full-width">
+                    <figure class="leftImage">
+                        <img src="res/MC-Bottom.png" style="width: 100%; display: block;">
+                        <figcaption>The bottom of the inverter</figcaption>
+                    </figure>
+                    <div class="right-paragraph">
+                        To help with both cooling and with power transmission, solid copper busbars were soldered to the underside of the PCB.
+                        These will connect to the housing of the inverter with a high performance thermal pad.
+                        <br><br>
+                        In order to maintain the extremely high switching speed, a very fast stm32h7 will control the inverter.
+                        I have already written the main control algorithm in assembly to make it as fast as possible.
+                        <br><br>
+                    </div>
+                </div>
+                <div class="full-paragraph">
                     I am hoping my work here could lead to the FSAE team adoping far cheaper in house inverters if they choose to go the hub motor route than buying expensive off the shelf ones.
                     <br><br>
                     This project is a work in progress, I will update it with photos and results as work goes on.
-                </div>
                 </div>
                 <h2 class="full-paragraph" id="proj_personal_1">
                     OpenGL experiments
