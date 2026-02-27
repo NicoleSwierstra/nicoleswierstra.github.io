@@ -239,10 +239,13 @@
                 </figure>
                 <div class="full-paragraph">
                     In order to optimize the design of the FSAE car, we as a team need to be able to simulate the way that the car works on track.
-                    To do this, we are writing a discrete model of the car in order to understand it better.
+                    To do this, a kinematic model of the car's dynamics is created.
                     <br><br>
-                    This descrete mathematical model of the car can then be simulated to figure out how well it performs around a track, using a lagrange cost optimization function.
-                    This is still a work in progress as we continue to validate it with viking 66, hopefully to the point where it becomes useful for 67.
+                    We can then use this model to figure out what the fastest lap around a track might be, by formulating an optimal control problem that places copies of the control vector (along with a seperate axis for offset from the track's centerline) for the car at equally spaced points along the track.
+                    An interior point method, like matlab's IPOPT, can be used to optimize the car's trajectory.
+                    We can then use this data to approximate how changing parameters on the car will effect the car's performance in dynamic events.
+                    <br><br>
+                    Unfortunately, it was determined that using a prebuilt simulator, openlap, was a better fit for our team and it's goals. The dynamic model of the car lives on, in the form of a real time model on the VCU for traction control.
                 </div>
             </div>
 
@@ -418,9 +421,17 @@
                     This project is a work in progress, I will update it with photos and results as work goes on.
                 </div>
                 <figure class="centerImage">
-                        <img src="res/MC-with-control.png" style="width: 100%; display: block;">
-                        <figcaption>The inverter with the control pcb attached.</figcaption>
-                    </figure>
+                    <img src="res/MC-with-control.png" style="width: 100%; display: block;">
+                    <figcaption>The inverter with the control pcb attached.</figcaption>
+                </figure>
+                <figure class="centerImage">
+                    <img src="res/MC_CAD_SCHEM.png" style="width: 100%; display:inline;">
+                    <figcaption>The Schematic for the gate drives.</figcaption>
+                </figure>
+                <figure class="centerImage">
+                    <img src="res/MC_CAD_TRACES.png" style="width: 100%; display:inline;">
+                    <figcaption>The routed pcb. The top layer is shown, as the other 3 layers on the pcb are the high voltage ground and power planes.</figcaption>
+                </figure>
                 <h2 class="full-paragraph" id="proj_personal_1">
                     OpenGL experiments
                 </h2>
